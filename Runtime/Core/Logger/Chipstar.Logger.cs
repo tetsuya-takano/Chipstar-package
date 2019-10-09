@@ -231,7 +231,7 @@ namespace Chipstar
 		[Conditional( ENABLE_CHIPSTAR_LOG )]
 		internal static void Log_ApplyLocalSaveFile( string path )
 		{
-			if (!EnableLog)
+			if (!EnableLogDetail)
 			{
 				return;
 			}

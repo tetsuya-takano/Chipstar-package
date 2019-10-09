@@ -14,19 +14,14 @@ namespace Chipstar.Downloads
 		[SerializeField] private DownloadProviderBuilder m_downloadProvider = default;
 		[SerializeField] private StorageProviderBuilder m_storageProvider = default;
 		[SerializeField] private UnloadProviderBuilder m_unloadProvider = default;
-
+		[SerializeField] private BundleSaveDataBuilder m_saveBuilder = default;
 
 		public override IAssetManager Build(RuntimePlatform platform, AssetBundleConfig config )
 		{
 			var encode = BuildMapDataTable.Encode;
 
 			var loadDatabase = new MultiLoadDatabase();
-
-			var saveBuilder = new FileBuilder<StorageFileTable>(
-				new JsonWriter<StorageFileTable>(RawFileConverter.Default, encode),
-				new JsonParser<StorageFileTable>(RawFileConverter.Default, encode),
-				readOption: FileReadOption.EmptyIfFailure
-			);
+			var saveBuilder = m_saveBuilder.Build();
 			var storageDatabase = new StorageDatabase<StorageFileTable>(builder: saveBuilder);
 			storageDatabase.OnSaveVersion = d => true;
 

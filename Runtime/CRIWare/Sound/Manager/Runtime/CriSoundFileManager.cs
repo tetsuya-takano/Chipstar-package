@@ -20,8 +20,8 @@ namespace Chipstar.Downloads.CriWare
 		//	変数
 		//=====================================
 		//--------------- ローカルデータ情報
-		private CriVersionTableJson m_cacheDB       = null; // サウンドの保持バージョンファイル
-        private IFileBuilder<CriVersionTableJson> m_saveBuilder = null;
+		private CriVersionTable m_cacheDB       = null; // サウンドの保持バージョンファイル
+        private IFileBuilder<CriVersionTable> m_saveBuilder = null;
 		private ISoundLoadDatabase m_builtinDatabase = null; //	データベース情報
 													  //--------------- リモートデータ情報
 		private ISoundLoadDatabase  m_remoteDatabase     = null; //	データベース情報
@@ -41,7 +41,7 @@ namespace Chipstar.Downloads.CriWare
 			SoundConfig config,
 			IJobEngine engine,
             ISoundLoadDatabase database,
-            IFileBuilder<CriVersionTableJson> builder,
+            IFileBuilder<CriVersionTable> builder,
             IErrorHandler handler
 		) : base(platform, config, engine, handler)
 		{
@@ -333,7 +333,7 @@ namespace Chipstar.Downloads.CriWare
 
 		protected override void DoDatabaseClear()
 		{
-			m_cacheDB = new CriVersionTableJson();
+			m_cacheDB = new CriVersionTable();
 		}
 	}
 }

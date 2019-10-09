@@ -10,10 +10,10 @@ namespace Chipstar.Downloads.CriWare
 		{
 			var encode = System.Text.Encoding.UTF8;
 			var parser = new JsonParser<MovieFileDatabase>(RawFileConverter.Default, encode);
-			var saveBuilder = new FileBuilder<CriVersionTableJson>
+			var saveBuilder = new FileBuilder<CriVersionTable>
 			(
-				writer : new JsonWriter<CriVersionTableJson>( RawFileConverter.Default,encode),
-				parser: new JsonParser<CriVersionTableJson>(RawFileConverter.Default, encode)
+				writer : new JsonWriter<CriVersionTable>( RawFileConverter.Default,encode),
+				parser: new JsonParser<CriVersionTable>(RawFileConverter.Default, encode)
 			);
 			return new CriMovieFileManager
 			(

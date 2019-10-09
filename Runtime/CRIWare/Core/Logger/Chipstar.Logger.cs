@@ -17,7 +17,7 @@ namespace Chipstar
 		/// セーブデータ情報ログ
 		/// </summary>
 		[Conditional(ENABLE_CHIPSTAR_LOG)]
-		internal static void Log_ReadLocalTable(CriVersionTableJson cacheDB, IAccessLocation location)
+		internal static void Log_ReadLocalTable(CriVersionTable cacheDB, IAccessLocation location)
 		{
 			if (cacheDB == null)
 			{
@@ -67,6 +67,12 @@ namespace Chipstar
 		internal static void Log_CleanupSaveDirectory(IAccessPoint dir)
 		{
 			Warning($" Cleanup : { dir.ToString()}");
+		}
+		[Conditional(ENABLE_CHIPSTAR_LOG)]
+		internal static void Log_Cached(IRuntimeBundleData data)
+		{
+			if(!EnableLogDetail) { return; }
+			Log($"Cached : {data.Identifier}");
 		}
 	}
 }
