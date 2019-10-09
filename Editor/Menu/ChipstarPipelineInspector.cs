@@ -11,10 +11,21 @@ namespace Chipstar
 			DrawDefaultInspector();
 			if(GUILayout.Button("Build"))
 			{
-				var buildTarget = EditorUserBuildSettings.activeBuildTarget;
-				if (EditorUtility.DisplayDialog("!", "ビルドします\n"+buildTarget.ToString(), "Yes", "No"))
+				try
 				{
-					(target as ChipstarPipeline)?.Build(buildTarget);
+					var buildTarget = EditorUserBuildSettings.activeBuildTarget;
+					if (EditorUtility.DisplayDialog("!", "ビルドします\n" + buildTarget.ToString(), "Yes", "No"))
+					{
+						(target as ChipstarPipeline)?.Build(buildTarget);
+					}
+				}
+				catch (System.Exception e)
+				{
+					Debug.LogError(e.ToString());
+				}
+				finally
+				{
+					GUIUtility.ExitGUI();
 				}
 			}
 		}
