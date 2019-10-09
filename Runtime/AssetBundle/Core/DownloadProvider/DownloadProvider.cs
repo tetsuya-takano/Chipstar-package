@@ -108,7 +108,7 @@ namespace Chipstar.Downloads
 			if( StorageDatabase.HasStorage( data ))
 			{
                 //	キャッシュ済は無視
-                ChipstarLog.Log($"Cached : {data.Identifier}");
+                ChipstarLog.Log_Cached(data);
                 return SkipLoadProcess.Create(data.Identifier);
 			}
 			return CreateDowloadJob(data.Url, data);

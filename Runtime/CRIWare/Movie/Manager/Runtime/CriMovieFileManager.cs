@@ -21,9 +21,9 @@ namespace Chipstar.Downloads.CriWare
 		private MovieConfig m_config = default;
 		//--------------- ローカルデータ情報
 		private IMovieLoadDatabase m_builtinDatabase = default;
-		private CriVersionTableJson m_cacheDB = null; //	ムービーの保持バージョンファイル
+		private CriVersionTable m_cacheDB = null; //	ムービーの保持バージョンファイル
 		private IMovieLoadDatabase m_remoteDatabase = null;  //	データベース情報
-		private IFileBuilder<CriVersionTableJson> m_saveBuilder = null;
+		private IFileBuilder<CriVersionTable> m_saveBuilder = null;
 
 
 		//=====================================
@@ -41,7 +41,7 @@ namespace Chipstar.Downloads.CriWare
 			MovieConfig config,
 			IJobEngine engine,
             IMovieLoadDatabase database,
-            FileBuilder<CriVersionTableJson> builder,
+            IFileBuilder<CriVersionTable> builder,
             IErrorHandler handler
 		) : base(platform, config, engine, handler)
 		{
@@ -245,7 +245,7 @@ namespace Chipstar.Downloads.CriWare
 		}
 		protected override void DoDatabaseClear()
 		{
-			m_cacheDB = new CriVersionTableJson();
+			m_cacheDB = new CriVersionTable();
 		}
 
 	}
