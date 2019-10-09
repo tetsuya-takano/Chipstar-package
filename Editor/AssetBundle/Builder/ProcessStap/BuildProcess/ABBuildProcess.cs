@@ -17,7 +17,7 @@ namespace Chipstar.Builder
 	}
 
 
-	public abstract class ABBuildProcess : IABBuildProcess
+	public abstract class ABBuildProcess : ScriptableObject, IABBuildProcess
 	{
 		protected BuildContext Context { get; private set; }
 		/// <summary>

@@ -8,7 +8,7 @@ namespace Chipstar.Builder
 	/// <summary>
 	/// ビルドしない
 	/// </summary>
-	public sealed class ManifestOnlyBuildProcess<T> : ABBuildProcess
+	public sealed class ManifestOnlyBuildProcess : ABBuildProcess
 	{
 		protected override ABBuildResult DoBuild(string outputPath, AssetBundleBuild[] bundleList, BuildAssetBundleOptions option, BuildTarget platform)
 		{

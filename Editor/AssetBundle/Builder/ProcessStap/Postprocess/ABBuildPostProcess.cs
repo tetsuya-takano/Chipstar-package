@@ -18,10 +18,8 @@ namespace Chipstar.Builder
 	/// <summary>
 	/// 事後処理
 	/// </summary>
-	public class ABBuildPostProcess : IABBuildPostProcess
+	public class ABBuildPostProcess : ScriptableObject, IABBuildPostProcess
 	{
-		public static ABBuildPostProcess Empty = new ABBuildPostProcess();
-
 		protected BuildContext Context { get; private set; }
 
 		public void OnProcess(

@@ -25,6 +25,9 @@ namespace Chipstar.Builder
 		[SerializeField] private BundlePackRuleBuilder m_ruleBuilder = default;
 		[SerializeField] private BundlePackCalclater m_calclater = default;
 
+		[SerializeField] private ABBuildPreProcess m_preProcess = default;
+		[SerializeField] private ABBuildProcess m_buildProcess = default;
+		[SerializeField] private ABBuildPostProcess m_postProcess = default;
 
 		//============================================
 		//	プロパティ
@@ -36,9 +39,9 @@ namespace Chipstar.Builder
 
 		private IFileCollection FileCollection => m_fileCollection;
 
-		private IABBuildPreProcess PreProcess => null;
-		private IABBuildProcess BuildProcess => null;
-		private IABBuildPostProcess PostProcess => null;
+		private IABBuildPreProcess PreProcess => m_preProcess;
+		private IABBuildProcess BuildProcess => m_buildProcess;
+		private IABBuildPostProcess PostProcess => m_postProcess;
 		//============================================
 		//	関数
 		//============================================
