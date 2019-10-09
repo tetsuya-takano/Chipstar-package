@@ -4,73 +4,44 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace Chipstar.Builder
 {
-	public interface IAssetBundleBuilder : IDisposable
+	public interface IAssetBundleBuilder
 	{
 		ABBuildResult Build();
 	}
 	/// <summary>
 	/// ビルド用クラス
 	/// </summary>
-	public class AssetBundleBuilder<TBuildData>
-		: IAssetBundleBuilder
-		where TBuildData : IBundleFileManifest
+	public partial class AssetBundleBuilder : ScriptableObject, IAssetBundleBuilder
 	{
+		//============================================
+		//	SerializeField
+		//============================================
+		[SerializeField] private BundleBuildConfig m_config = default;
+		[SerializeField] private FileCollection m_fileCollection = default;
+		[SerializeField] private BundlePackRuleBuilder m_ruleBuilder = default;
+		[SerializeField] private BundlePackCalclater m_calclater = default;
+
+
 		//============================================
 		//	プロパティ
 		//============================================
-		private IBundleBuildConfig Config { get; set; }
+		private IBundleBuildConfig Config => m_config;
 		private BuildContext Context { get; set; }
-		private IPackRuleBuilder<IBundlePackRule> PackageSettings { get; set; }
-		private IPackageCalclater PackageCalclater { get; set; }
+		private IPackRuleBuilder<IBundlePackRule> RuleBuilder => m_ruleBuilder;
+		private IPackageCalclater Calclater => m_calclater;
 
-		private IFileCollection FileCollection { get; set; }
+		private IFileCollection FileCollection => m_fileCollection;
 
-		private IABBuildPreProcess PreProcess { get; set; }
-		private IABBuildProcess BuildProcess { get; set; }
-		private IABBuildPostProcess PostProcess { get; set; }
+		private IABBuildPreProcess PreProcess => null;
+		private IABBuildProcess BuildProcess => null;
+		private IABBuildPostProcess PostProcess => null;
 		//============================================
 		//	関数
 		//============================================
-
-		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public AssetBundleBuilder
-		(
-			IBundleBuildConfig config,
-			IFileCollection fileCollection,
-			IPackRuleBuilder<IBundlePackRule> packageSettings,
-			IPackageCalclater packageCalclater,
-			IABBuildProcess buildProcess,
-			IABBuildPreProcess preProcess,
-			IABBuildPostProcess postProcess
-			)
-		{
-			Config = config;
-			PackageSettings = packageSettings;
-			PackageCalclater = packageCalclater;
-			FileCollection = fileCollection;
-			PreProcess = preProcess;
-			BuildProcess = buildProcess;
-			PostProcess = postProcess;
-		}
-
-		/// <summary>
-		/// 破棄処理
-		/// </summary>
-		public void Dispose()
-		{
-			Config = null;
-			PackageSettings = null;
-			FileCollection = null;
-			PackageCalclater = null;
-			PreProcess = null;
-			BuildProcess = null;
-			PostProcess = null;
-		}
 
 		/// <summary>
 		/// ビルド
@@ -91,13 +62,13 @@ namespace Chipstar.Builder
 			IList<IBundlePackRule> packageGroup = null;
 			using (var timer = new CalcProcessTimerScope("CreatePackageList"))
 			{
-				packageGroup = PackageSettings.GetPackRuleList();
+				packageGroup = RuleBuilder.GetPackRuleList();
 			}
 			//	ビルドマップの生成
 			IList<IBundleFileManifest> assetBundleList = null;
 			using (var timer = new CalcProcessTimerScope("Build BundleList"))
 			{
-				assetBundleList = PackageCalclater.CreatePackageList(Config, buildAssets, packageGroup);
+				assetBundleList = Calclater.CreatePackageList(Config, buildAssets, packageGroup);
 			}
 			//  事前処理
 			using (var timer = new CalcProcessTimerScope("Run PreProcess"))
