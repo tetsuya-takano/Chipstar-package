@@ -16,7 +16,7 @@ namespace Chipstar.Builder
 	{
 		[SerializeField] private AssetBundleConfig m_config = default;
 		[SerializeField] private StoragePath m_outputPath = default;
-		[SerializeField] private BuildManDataTableBuilder m_builder = default;
+		[SerializeField] private BuildMapDataTableBuilder m_builder = default;
 		//=========================================
 		//  関数
 		//=========================================

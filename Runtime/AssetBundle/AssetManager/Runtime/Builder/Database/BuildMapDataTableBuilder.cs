@@ -18,7 +18,7 @@ namespace Chipstar.Downloads
 		}
 	}
 
-	public abstract class BuildManDataTableBuilder : FileBuilderCreater<BuildMapDataTable>
+	public abstract class BuildMapDataTableBuilder : FileBuilderCreater<BuildMapDataTable>
 	{
 		public override IFileBuilder<BuildMapDataTable> Build()
 		{
