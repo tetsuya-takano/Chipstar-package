@@ -17,12 +17,12 @@ namespace Chipstar.Builder
 		// method
 		//======================================
 
-		public override void Build(RuntimePlatform platform)
+		public override void Build(RuntimePlatform platform, BuildTarget target)
 		{
 			for (var i = 0; i < m_builderList.Length; i++)
 			{
 				var builder = m_builderList[ i ];
-				var result = builder.Build();
+				var result = builder.Build( platform, target );
 				if (result.Result == BuildResultCode.Error)
 				{
 					throw new System.Exception(result.ToString());

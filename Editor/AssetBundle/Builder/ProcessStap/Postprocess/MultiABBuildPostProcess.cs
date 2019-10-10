@@ -15,7 +15,7 @@ namespace Chipstar.Builder
 		[SerializeField]
 		private ABBuildPostProcess[] m_processes = default;
 
-		protected override void DoProcess(IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
+		protected override void DoProcess(RuntimePlatform platform, UnityEditor.BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
 		{
 			for (int i = 0; i < m_processes.Length; i++)
 			{

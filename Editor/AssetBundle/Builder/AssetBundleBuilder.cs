@@ -10,7 +10,7 @@ namespace Chipstar.Builder
 {
 	public interface IAssetBundleBuilder
 	{
-		ABBuildResult Build();
+		ABBuildResult Build(RuntimePlatform platform, BuildTarget target);
 	}
 	/// <summary>
 	/// ビルド用クラス
@@ -49,7 +49,7 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// ビルド
 		/// </summary>
-		public virtual ABBuildResult Build(  )
+		public virtual ABBuildResult Build(  RuntimePlatform platform, BuildTarget target )
 		{
 			Context = new BuildContext();
 			PreProcess?.SetContext(Context);
@@ -76,18 +76,18 @@ namespace Chipstar.Builder
 			//  事前処理
 			using (var timer = new CalcProcessTimerScope("Run PreProcess"))
 			{
-				PreProcess?.OnProcess(Config, assetBundleList);
+				PreProcess?.OnProcess(platform, target, Config, assetBundleList);
 			}
 			//	ビルド実行
 			ABBuildResult result = default;
 			using (var timer = new CalcProcessTimerScope("Run Build Process"))
 			{
-				result = BuildProcess.Build(Config, assetBundleList);
+				result = BuildProcess.Build(platform, target, Config, assetBundleList);
 			}
 			using (var timer = new CalcProcessTimerScope("Run Post Process"))
 			{
 				//	事後処理
-				PostProcess?.OnProcess(Config, result, assetBundleList);
+				PostProcess?.OnProcess(platform, target, Config, result, assetBundleList);
 			}
 
 			AssetDatabase.Refresh();

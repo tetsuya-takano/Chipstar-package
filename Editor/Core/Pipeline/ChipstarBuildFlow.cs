@@ -8,6 +8,6 @@ namespace Chipstar
 {
 	public abstract class ChipstarBuildFlow : ScriptableObject
 	{
-		public abstract void Build( RuntimePlatform platform );
+		public abstract void Build(RuntimePlatform platform, BuildTarget buildTarget);
 	}
 }

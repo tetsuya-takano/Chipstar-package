@@ -12,7 +12,7 @@ namespace Chipstar.Builder
 	/// </summary>
 	public interface IABBuildProcess
 	{
-		ABBuildResult Build(IBundleBuildConfig settings, IList<IBundleFileManifest> assetBundleList);
+		ABBuildResult Build(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, IList<IBundleFileManifest> assetBundleList);
 		void SetContext(BuildContext context);
 	}
 
@@ -24,6 +24,8 @@ namespace Chipstar.Builder
 		/// ビルド
 		/// </summary>
 		public virtual ABBuildResult Build(
+			RuntimePlatform platform,
+			BuildTarget target,
 			IBundleBuildConfig settings,
 			IList<IBundleFileManifest> assetBundleList
 		)
@@ -36,7 +38,6 @@ namespace Chipstar.Builder
 			}
 
 			var option = settings.Options;
-			var platform = settings.BuildTarget;
 			var bundleList = assetBundleList
 								.Select(d => d.ToBuildEntry())
 								.ToArray();
@@ -61,7 +62,8 @@ namespace Chipstar.Builder
 			string outputPath,
 			AssetBundleBuild[] bundleList,
 			BuildAssetBundleOptions option,
-			BuildTarget platform
+			RuntimePlatform platform,
+			BuildTarget buildTarget
 		);
 	}
 }
