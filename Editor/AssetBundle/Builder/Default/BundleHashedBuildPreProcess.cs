@@ -19,7 +19,7 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// 処理
 		/// </summary>
-		protected override void DoProcess( IBundleBuildConfig config, IList<IBundleFileManifest> bundleList )
+		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> bundleList)
 		{
 			for (int i = 0; i < bundleList.Count; i++)
 			{

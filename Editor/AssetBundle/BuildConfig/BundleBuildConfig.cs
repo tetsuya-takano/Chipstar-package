@@ -22,7 +22,6 @@ namespace Chipstar.Builder
 	public sealed class BundleBuildConfig : ScriptableObject, IBundleBuildConfig
 	{
 		[SerializeField] private DefaultAsset m_targetFolder = default;
-		[SerializeField] private StoragePath m_outputPath = default;
 		[SerializeField] private string m_extension = ".unity3d";
 		[SerializeField] private BuildAssetBundleOptions m_option = BuildAssetBundleOptions.StrictMode;
 
