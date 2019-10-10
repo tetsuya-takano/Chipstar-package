@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Chipstar.Downloads
 {
-	public sealed class BinaryBuildManDataTableBuilder : BuildMapDataTableBuilder
+	public sealed class BinaryBuildMapDataTableBuilder : BuildMapDataTableBuilder
 	{
 		protected override IFileParser<BuildMapDataTable> DoParser(IFileConverter fileConverter)
 		{

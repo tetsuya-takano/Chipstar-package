@@ -20,7 +20,9 @@ namespace Chipstar.Builder
 	/// </summary>
 	public class ABBuildPostProcess : ScriptableObject, IABBuildPostProcess
 	{
+		[SerializeField] private StoragePath m_outputPath = default;
 		protected BuildContext Context { get; private set; }
+		protected StoragePath OutputPath => m_outputPath;
 
 		public void OnProcess(
 			RuntimePlatform platform,

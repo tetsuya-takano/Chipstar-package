@@ -13,14 +13,13 @@ namespace Chipstar.Builder
 	/// </summary>
 	public class DeleteUnusedBundlePostProcess : ABBuildPostProcess
 	{
-		[SerializeField] private StoragePath m_outputPath = default;
 		/// <summary>
 		/// 実行
 		/// </summary>
 		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
 		{
 			//	親ディレクトリ
-			var rootDirPath = m_outputPath.Get( platform );
+			var rootDirPath = OutputPath.Get( platform );
 			if( !Directory.Exists( rootDirPath.BasePath ) )
 			{
 				Debug.LogWarning( $"OutputDir is Not Exists : { rootDirPath}" );

@@ -15,7 +15,6 @@ namespace Chipstar.Builder
 	public class SaveBuildMapPostProcess : ABBuildPostProcess
 	{
 		[SerializeField] private AssetBundleConfig m_config = default;
-		[SerializeField] private StoragePath m_outputPath = default;
 		[SerializeField] private BuildMapDataTableBuilder m_builder = default;
 		//=========================================
 		//  関数
@@ -27,7 +26,7 @@ namespace Chipstar.Builder
 		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
         {
             var json        = new BuildMapDataTable();
-			var directory = m_outputPath.Get(platform);
+			var directory = OutputPath.Get(platform);
 			var saveFilePath=  directory
 								.ToLocation(m_config.ManifestName)
 								.FullPath;

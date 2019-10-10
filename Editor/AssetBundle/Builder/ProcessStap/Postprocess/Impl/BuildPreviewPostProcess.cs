@@ -14,12 +14,11 @@ namespace Chipstar.Builder
 	/// <typeparam name="T"></typeparam>
 	public sealed class BuildPreviewPostProcess : ABBuildPostProcess
 	{
-		[SerializeField] private StoragePath m_outputPath = default;
 		[SerializeField] private string m_fileName = "preview.json";
 
 		protected override void DoProcess(RuntimePlatform platform, UnityEditor.BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
 		{
-			var outputPath = m_outputPath.Get( platform );
+			var outputPath = OutputPath.Get( platform );
 			var list = bundleList.OrderBy(c => c.ABName).ToArray();
 			var manifest = result.Manifest;
 			var packResult = new StringBuilder();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Chipstar.Downloads
 {
-	public sealed class JsonBuildManDataTableBuilder : BuildMapDataTableBuilder
+	public sealed class JsonBuildMapDataTableBuilder : BuildMapDataTableBuilder
 	{
 		protected override IFileParser<BuildMapDataTable> DoParser(IFileConverter fileConverter)
 		{
