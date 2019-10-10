@@ -15,8 +15,8 @@ namespace Chipstar
 		[Serializable]
 		private class PlatformSet
 		{
-			public BuildTarget buildTarget;
-			public RuntimePlatform platform;
+			public BuildTarget buildTarget = BuildTarget.Android;
+			public RuntimePlatform platform = RuntimePlatform.Android;
 		}
 		[SerializeField] PlatformSet[] m_platformList = new PlatformSet[0];
 		[SerializeField] private ChipstarBuildFlow[] m_buildFlowList = default;
