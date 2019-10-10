@@ -33,7 +33,7 @@ namespace Chipstar.Builder
 		{
 			using (var scope = new CalcProcessTimerScope(this.GetType().Name))
 			{
-				DoProcess(config, bundleList);
+				DoProcess(platform, target, config, bundleList);
 			}
 		}
 
@@ -42,6 +42,6 @@ namespace Chipstar.Builder
 			Context = context;
 		}
 
-		protected virtual void DoProcess(IBundleBuildConfig config, IList<IBundleFileManifest> bundleList) { }
+		protected virtual void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> bundleList) { }
 	}
 }

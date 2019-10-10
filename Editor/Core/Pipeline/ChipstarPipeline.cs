@@ -39,7 +39,7 @@ namespace Chipstar
 					var flow = m_buildFlowList[i];
 					using (var scope = StopWatchScope.Create(flow.name))
 					{
-						flow.Build( data.platform );
+						flow.Build(data.platform, data.buildTarget);
 					}
 				}
 

@@ -10,14 +10,15 @@ namespace Chipstar.Builder
 	/// </summary>
 	public sealed class ManifestOnlyBuildProcess : ABBuildProcess
 	{
-		protected override ABBuildResult DoBuild(string outputPath, AssetBundleBuild[] bundleList, BuildAssetBundleOptions option, BuildTarget platform)
+		protected override ABBuildResult DoBuild(RuntimePlatform platform, BuildTarget buildTarget, BuildAssetBundleOptions option, AssetBundleBuild[] bundleList)
 		{
+			var path = OutputPath.Get( platform );
 			var manifest = BuildPipeline.BuildAssetBundles
 			(
-				outputPath : outputPath,
+				outputPath: path.BasePath,
 				builds : bundleList,
 				assetBundleOptions: option |= BuildAssetBundleOptions.DryRunBuild, 
-				targetPlatform : platform
+				targetPlatform : buildTarget
 			);
 			return new ABBuildResult(manifest, BuildResultCode.Success, "Complete" );
         }

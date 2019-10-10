@@ -14,33 +14,23 @@ namespace Chipstar.Builder
 	/// </summary>
 	public class SaveBuildMapPostProcess : ABBuildPostProcess
 	{
-		//=========================================
-		//  プロパティ
-		//=========================================
-		private string ManifestFileName { get; set; }
-		private IFileWriter<BuildMapDataTable> Writer { get; }
+		[SerializeField] private AssetBundleConfig m_config = default;
+		[SerializeField] private StoragePath m_outputPath = default;
 		//=========================================
 		//  関数
 		//=========================================
 
 		/// <summary>
-		/// コンストラクタ
-		/// </summary>
-		public SaveBuildMapPostProcess( string manifestName, IFileWriter<BuildMapDataTable> writer )
-		{
-            ManifestFileName = manifestName;
-			Writer = writer;
-        }
-		public SaveBuildMapPostProcess(string manifestName) : this(manifestName, new JsonWriter<BuildMapDataTable>(RawFileConverter.Default, BuildMapDataTable.Encode)) { }
-
-		/// <summary>
 		/// ビルドマップを作成
 		/// </summary>
-		protected override void DoProcess( IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
+		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
         {
             var json        = new BuildMapDataTable();
-			var saveFilePath   = Path.Combine( settings.ManifestOutputPath, ManifestFileName );
-			
+			var directory = m_outputPath.Get(platform);
+			var saveFilePath=  directory
+								.ToLocation(m_config.ManifestName)
+								.FullPath;
+
 			//	旧テーブルを取得
 			//	アセットバージョンファイルを取得
 			//	外部情報
@@ -48,7 +38,7 @@ namespace Chipstar.Builder
 			var prefix       = settings.TargetDirPath;
 			json.Prefix		 = prefix;
 
-			using( var scope = new ProgressDialogScope( "Create Bundle Manifest : " + ManifestFileName, bundleList.Count ) )
+			using( var scope = new ProgressDialogScope( "Create Bundle Manifest : " + saveFilePath, bundleList.Count ) )
 			{
 				//	テーブル作成
 				for( int i = 0; i < bundleList.Count; i++ )
@@ -56,9 +46,9 @@ namespace Chipstar.Builder
 					//	BuildFileData
 					var fileData= bundleList[ i ];
 					//	Path
-					var absPath = Path.Combine( settings.BundleOutputPath, fileData.ABName );
+					var file = directory.ToLocation( fileData.ABName );
 					//	Create BuildMap Data
-					var d       = CreateBuildData( absPath, fileData, manifest );
+					var d       = CreateBuildData( file, fileData, manifest );
 
 					scope.Show( fileData.ABName, i);
 					json.Add( d );
@@ -69,7 +59,7 @@ namespace Chipstar.Builder
 								.Distinct()
 								.ToArray();
 
-			using( var scope = new ProgressDialogScope( "Create Asset Table : " + ManifestFileName, addresses.Length) )
+			using( var scope = new ProgressDialogScope( "Create Asset Table : " + saveFilePath, addresses.Length) )
 			{
 				for( int i = 0; i < addresses.Length; i++)
 				{
@@ -90,14 +80,14 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// 単一データ作成
 		/// </summary>
-		private BundleBuildData CreateBuildData( string absPath, IBundleFileManifest buildFileData, AssetBundleManifest manifest )
+		private BundleBuildData CreateBuildData( IAccessLocation file, IBundleFileManifest buildFileData, AssetBundleManifest manifest )
 		{
 			var identifier = buildFileData?.Identifier;
 			var abName = buildFileData?.ABName;
-			var crc = FsUtillity.TryGetCrc(absPath);
+			var crc = FsUtillity.TryGetCrc(file.FullPath);
 			var hash = manifest.TryGetHashString(abName);
 			var dependencies = manifest.TryGetDependencies(abName);
-			var size = FsUtillity.TryGetFileSize(absPath);
+			var size = FsUtillity.TryGetFileSize(file.FullPath);
 
 			var d = new BundleBuildData
 			{
