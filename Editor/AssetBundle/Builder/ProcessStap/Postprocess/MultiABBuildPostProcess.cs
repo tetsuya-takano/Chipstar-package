@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 namespace Chipstar.Builder
 {
@@ -9,34 +10,20 @@ namespace Chipstar.Builder
 	/// </summary>
 	public sealed class MultiABBuildPostProcess : ABBuildPostProcess
 	{
-        //===============================
-        //  変数
-        //===============================
-        private IEnumerable<IABBuildPostProcess> m_processes = null;
+		//===============================
+		//  変数
+		//===============================
+		[SerializeField]
+		private ABBuildPostProcess[] m_processes = default;
 
-        //===============================
-        //  関数
-        //===============================
+		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
+		{
+			for (int i = 0; i < m_processes.Length; i++)
+			{
+				var process = m_processes[i];
+				process.OnProcess(platform, target, settings, result, bundleList);
+			}
 
-        public MultiABBuildPostProcess(IEnumerable<IABBuildPostProcess> processes)
-        {
-            m_processes = processes;
-        }
-
-        protected override void DoProcess( IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
-        {
-            foreach( var process in m_processes )
-            {
-                process.OnProcess( settings, result, bundleList );
-            }
-        }
-    }
-
-    public static partial class MultiABBuildPostProcessExtensions
-    {
-        public static IABBuildPostProcess Merge( this IEnumerable<IABBuildPostProcess> self ) 
-        {
-            return new MultiABBuildPostProcess( self );
-        }
-    }
+		}
+	}
 }

@@ -14,9 +14,11 @@ namespace Chipstar.Builder
 	/// <typeparam name="T"></typeparam>
 	public sealed class BuildPreviewPostProcess : ABBuildPostProcess
 	{
-		protected override void DoProcess(IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
+		[SerializeField] private string m_fileName = "preview.json";
+
+		protected override void DoProcess(RuntimePlatform platform, UnityEditor.BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
 		{
-			var outputPath = settings.BundleOutputPath;
+			var outputPath = OutputPath.Get( platform );
 			var list = bundleList.OrderBy(c => c.ABName).ToArray();
 			var manifest = result.Manifest;
 			var packResult = new StringBuilder();
@@ -55,9 +57,9 @@ namespace Chipstar.Builder
 					}
 				}
 			}
-			if (Directory.Exists(outputPath))
+			if (Directory.Exists(outputPath.BasePath))
 			{
-				Directory.CreateDirectory(outputPath);
+				Directory.CreateDirectory(outputPath.BasePath);
 			}
 			var resultContents = new[]
 			{
@@ -66,8 +68,8 @@ namespace Chipstar.Builder
 			};
 			foreach( var c in resultContents)
 			{
-				var filePath = Path.Combine(outputPath, $"{c.name}.json");
-				File.WriteAllText(filePath, c.content.ToString());
+				var filePath = outputPath.ToLocation( m_fileName );
+				File.WriteAllText(filePath.FullPath, c.content.ToString());
 			}
 		}
 

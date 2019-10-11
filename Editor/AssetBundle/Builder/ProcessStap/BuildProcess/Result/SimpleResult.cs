@@ -19,5 +19,10 @@ namespace Chipstar.Builder
 			Message = message;
 			Result = code;
 		}
+
+		public override string ToString()
+		{
+			return $"[{Result}]{Message}";
+		}
 	}
 }

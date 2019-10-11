@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 namespace Chipstar.Builder
@@ -15,11 +16,11 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// 実行
 		/// </summary>
-		protected override void DoProcess( IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
+		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
 		{
 			//	親ディレクトリ
-			var rootDirPath = settings.BundleOutputPath;
-			if( !Directory.Exists( rootDirPath ) )
+			var rootDirPath = OutputPath.Get( platform );
+			if( !Directory.Exists( rootDirPath.BasePath ) )
 			{
 				Debug.LogWarning( $"OutputDir is Not Exists : { rootDirPath}" );
 				return;
@@ -27,8 +28,8 @@ namespace Chipstar.Builder
 
 			//	ファイル一覧
 			var fileList    = Directory.EnumerateFiles( 
-								path			: rootDirPath, 
-								searchPattern	:"*.ab", 
+								path			: rootDirPath.BasePath , 
+								searchPattern	: settings.GetBundleName("*"), 
 								searchOption	: SearchOption.AllDirectories 
 							)
 							.Select( c => c.Replace( "\\","/" ) )
@@ -37,10 +38,10 @@ namespace Chipstar.Builder
 			// 出力結果にあるものは除外していく
 			foreach( var ab in bundleList )
 			{
-				var abPath = Path.Combine( rootDirPath, ab.ABName ).Replace("\\","/");
-				if( File.Exists( abPath ))
+				var abPath = rootDirPath.ToLocation( ab.ABName );
+				if( File.Exists( abPath.FullPath ))
 				{
-					fileList.Remove( abPath );
+					fileList.Remove( abPath.FullPath );
 				}
 			}
 
@@ -52,7 +53,7 @@ namespace Chipstar.Builder
 				SafeDelete( f );
 				SafeDelete( f + ".manifest" );
 			}
-			File.WriteAllText( Path.Combine( rootDirPath, "delete-log.txt" ), builder.ToString(), new UTF8Encoding( false ) );
+			File.WriteAllText( rootDirPath.ToLocation( "delete-log.txt" ).FullPath, builder.ToString(), new UTF8Encoding( false ) );
 		}
 
 		private void SafeDelete( string path )

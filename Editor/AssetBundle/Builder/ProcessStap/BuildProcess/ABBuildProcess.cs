@@ -12,43 +12,51 @@ namespace Chipstar.Builder
 	/// </summary>
 	public interface IABBuildProcess
 	{
-		ABBuildResult Build(IBundleBuildConfig settings, IList<IBundleFileManifest> assetBundleList);
+		ABBuildResult Build(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, IList<IBundleFileManifest> assetBundleList);
 		void SetContext(BuildContext context);
 	}
 
 
-	public abstract class ABBuildProcess : IABBuildProcess
+	public abstract class ABBuildProcess : ScriptableObject, IABBuildProcess
 	{
+		//=========================================
+		// SerializeField
+		//=========================================
+		[SerializeField] private StoragePath m_outputPath = default;
+
+		//=========================================
+		// Property
+		//=========================================
 		protected BuildContext Context { get; private set; }
+		protected StoragePath OutputPath => m_outputPath;
+		//=========================================
+		// Method
+		//=========================================
+
 		/// <summary>
 		/// ビルド
 		/// </summary>
 		public virtual ABBuildResult Build(
+			RuntimePlatform platform,
+			BuildTarget target,
 			IBundleBuildConfig settings,
 			IList<IBundleFileManifest> assetBundleList
 		)
 		{
-			var outputPath = settings.BundleOutputPath;
+			var outputPath = m_outputPath.Get( platform );
 
-			if (!Directory.Exists(outputPath))
+			if (!Directory.Exists(outputPath.BasePath))
 			{
-				Directory.CreateDirectory(outputPath);
+				Directory.CreateDirectory(outputPath.BasePath);
 			}
 
 			var option = settings.Options;
-			var platform = settings.BuildTarget;
 			var bundleList = assetBundleList
 								.Select(d => d.ToBuildEntry())
 								.ToArray();
 			using (var scope = new CalcProcessTimerScope(this.GetType().Name))
 			{
-				return DoBuild(
-				outputPath: outputPath,
-				option: option,
-				platform: platform,
-
-				bundleList: bundleList
-			);
+				return DoBuild(platform, target, option, bundleList);
 			}
 		}
 
@@ -58,10 +66,10 @@ namespace Chipstar.Builder
 		}
 
 		protected abstract ABBuildResult DoBuild(
-			string outputPath,
-			AssetBundleBuild[] bundleList,
+			RuntimePlatform platform,
+			BuildTarget buildTarget,
 			BuildAssetBundleOptions option,
-			BuildTarget platform
+			AssetBundleBuild[] bundleList
 		);
 	}
 }

@@ -11,8 +11,8 @@ namespace Chipstar
         [Serializable]
         private sealed class StorageData
         {
-            public RuntimePlatform RuntimePlatform;
-            public StoragePath StoragePath;
+            public RuntimePlatform RuntimePlatform = RuntimePlatform.Android;
+            public StoragePath StoragePath = default;
         }
         [SerializeField] private StorageData[] m_storageDatas = default;
         public override IAccessPoint Get( RuntimePlatform platform)

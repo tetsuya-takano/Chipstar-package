@@ -11,27 +11,29 @@ namespace Chipstar.Builder
 	/// </summary>
 	public interface IABBuildPostProcess
 	{
-		void OnProcess(IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> assetbundleList);
+		void OnProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> assetbundleList);
 		void SetContext(BuildContext context);
 	}
 
 	/// <summary>
 	/// 事後処理
 	/// </summary>
-	public class ABBuildPostProcess : IABBuildPostProcess
+	public class ABBuildPostProcess : ScriptableObject, IABBuildPostProcess
 	{
-		public static ABBuildPostProcess Empty = new ABBuildPostProcess();
-
+		[SerializeField] private StoragePath m_outputPath = default;
 		protected BuildContext Context { get; private set; }
+		protected StoragePath OutputPath => m_outputPath;
 
 		public void OnProcess(
+			RuntimePlatform platform,
+			BuildTarget target,
 			IBundleBuildConfig settings,
 			ABBuildResult result,
 			IList<IBundleFileManifest> bundleList)
 		{
 			using (var scope = new CalcProcessTimerScope(this.GetType().Name))
 			{
-				DoProcess(settings, result, bundleList);
+				DoProcess(platform, target, settings, result, bundleList);
 			}
 		}
 		public void SetContext(BuildContext context)
@@ -40,6 +42,8 @@ namespace Chipstar.Builder
 		}
 
 		protected virtual void DoProcess(
+			RuntimePlatform platform,
+			BuildTarget target,
 			IBundleBuildConfig settings,
 			ABBuildResult result,
 			IList<IBundleFileManifest> bundleList)

@@ -10,17 +10,16 @@ namespace Chipstar.Builder
 	/// アセットバンドルビルド前処理
 	/// </summary>
 	public interface IABBuildPreProcess
-    {
-		void SetContext( BuildContext context );
-		void OnProcess( IBundleBuildConfig config, IList<IBundleFileManifest> assetBundleList );
+	{
+		void SetContext(BuildContext context);
+		void OnProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> assetBundleList);
 	}
 
-    public class ABBuildPreProcess : IABBuildPreProcess
-    {
+	public class ABBuildPreProcess : ScriptableObject, IABBuildPreProcess
+	{
 		//=================================
 		//
 		//=================================
-		public static readonly ABBuildPreProcess Empty = new ABBuildPreProcess();
 
 		//=================================
 		// プロパティ
@@ -30,19 +29,19 @@ namespace Chipstar.Builder
 		//=================================
 		// 関数
 		//=================================
-		public void OnProcess( IBundleBuildConfig config, IList<IBundleFileManifest> bundleList )
-        {
+		public void OnProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> bundleList)
+		{
 			using (var scope = new CalcProcessTimerScope(this.GetType().Name))
 			{
-				DoProcess(config, bundleList);
+				DoProcess(platform, target, config, bundleList);
 			}
-        }
+		}
 
 		public void SetContext(BuildContext context)
 		{
 			Context = context;
 		}
 
-		protected virtual void DoProcess( IBundleBuildConfig config, IList<IBundleFileManifest> bundleList ) { }
+		protected virtual void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> bundleList) { }
 	}
 }
