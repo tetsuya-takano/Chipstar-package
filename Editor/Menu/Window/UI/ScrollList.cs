@@ -13,6 +13,10 @@ namespace Chipstar.Builder.Window
 		// 変数
 		//============================
 		private Vector2 m_scrollPos = Vector2.zero;
+		//============================
+		// 変数
+		//============================
+		public Action<Type> OnCreateRequest { private get; set; }
 
 		//============================
 		// 関数
@@ -42,6 +46,10 @@ namespace Chipstar.Builder.Window
 			{
 				var name = t.Name;
 				EditorGUILayout.LabelField(name);
+				if (GUILayout.Button("Create"))
+				{
+					OnCreateRequest?.Invoke( t );
+				}
 			}
 		}
 	}
