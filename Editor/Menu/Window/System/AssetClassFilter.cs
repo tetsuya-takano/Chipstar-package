@@ -15,7 +15,7 @@ namespace Chipstar.Builder.Window
 		//==================================
 		// Field
 		//==================================
-		private List<Type> m_typeList = new List<Type>();
+		private IReadOnlyList<IGrouping<string, Type>> m_typeTable = default;
 
 		//==================================
 		// Method
@@ -23,28 +23,36 @@ namespace Chipstar.Builder.Window
 
 		public void LoadAssembly()
 		{
-			var assembly = System.Reflection.Assembly.GetAssembly(typeof(ChipstarAsset));
+			var assemblies = new[]{
+				System.Reflection.Assembly.Load( "Chipstar-Runtime" ),
+				System.Reflection.Assembly.Load( "Chipstar-Editor" )
+			};
 			// Assemblyから一覧を取り出す
 			var chipstars
-				= assembly.GetTypes()
+				= assemblies
+				.SelectMany(assembly => assembly.GetTypes() )
 				// 抽象クラスは無視
 				.Where( c => !c.IsAbstract )
 				// アセット派生クラス
 				.Where(c => c.IsSubclassOf(typeof(ChipstarAsset)))
 				.ToArray();
 				;
-			m_typeList.AddRange( chipstars );
+			m_typeTable = chipstars.GroupBy(c => c.BaseType.Name).ToArray();
+		}
+		public IReadOnlyList<IGrouping<string, Type>> GetGroup()
+		{
+			return m_typeTable;
 		}
 		/// <summary>
 		/// 
 		/// </summary>
-		public IReadOnlyList<Type> GetList( )
+		public IReadOnlyCollection<Type> GetList( )
 		{
-			return m_typeList;
+			return m_typeTable.SelectMany(c => c).ToArray();
 		}
-		public IReadOnlyList<Type> GetList( Func<Type,bool> condition )
+		public IReadOnlyCollection<Type> GetList(Func<Type, bool> condition)
 		{
-			return m_typeList.Where(condition).ToArray();
+			return GetList().Where(condition).ToArray();
 		}
 	}
 }

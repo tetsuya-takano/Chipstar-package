@@ -14,7 +14,7 @@ namespace Chipstar.Builder.Window
 		// 変数
 		//====================================
 		private AssetClassFilter m_classFilter = default;
-
+		private ScrollList m_scrollList = default;
 		//====================================
 		// 関数
 		//====================================
@@ -22,6 +22,7 @@ namespace Chipstar.Builder.Window
 		private void OnEnable()
 		{
 			m_classFilter = new AssetClassFilter();
+			m_scrollList = new ScrollList();
 
 			m_classFilter.LoadAssembly();
 		}
@@ -33,7 +34,8 @@ namespace Chipstar.Builder.Window
 
 		private void OnGUI()
 		{
-			
+			var list = m_classFilter.GetGroup();
+			m_scrollList.Draw(list);
 		}
 	}
 }
