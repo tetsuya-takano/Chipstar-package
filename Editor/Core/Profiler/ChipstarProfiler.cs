@@ -26,11 +26,6 @@ namespace Chipstar.Profiler
 		//=====================================
 		// 関数
 		//=====================================
-		[MenuItem("Tools/Chipstar/Profiler")]
-		public static void Open()
-		{
-			GetWindow<ChipstarProfiler>("ChipstarProfiler");
-		}
 
 		private void OnEnable()
 		{
