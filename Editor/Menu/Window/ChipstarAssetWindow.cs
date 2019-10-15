@@ -34,7 +34,7 @@ namespace Chipstar.Builder.Window
 			m_creater = new AssetCreater();
 
 			m_header = new Header();
-			m_scrollList = new ScrollList();
+			m_scrollList = new ScrollList( "Bundle Assets" );
 
 			m_scrollList.OnCreateRequest = classType =>
 			{

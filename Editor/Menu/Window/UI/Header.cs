@@ -12,8 +12,13 @@ namespace Chipstar.Builder.Window
 		public DefaultAsset DefaultFolder => m_createFolder;
 		public void Draw()
 		{
-			using (var scope = new EditorGUILayout.HorizontalScope()) {
-				m_createFolder = EditorGUILayout.ObjectField(m_createFolder, typeof(DefaultAsset), allowSceneObjects: false) as DefaultAsset;
+			using (var v = new EditorGUILayout.VerticalScope())
+			{
+				EditorGUILayout.LabelField("Create Root Folder");
+				using (var scope = new EditorGUILayout.HorizontalScope())
+				{
+					m_createFolder = EditorGUILayout.ObjectField(m_createFolder, typeof(DefaultAsset), allowSceneObjects: false) as DefaultAsset;
+				}
 			}
 		}
 	}

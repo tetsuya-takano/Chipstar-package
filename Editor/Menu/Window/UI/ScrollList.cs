@@ -13,6 +13,7 @@ namespace Chipstar.Builder.Window
 		// 変数
 		//============================
 		private Vector2 m_scrollPos = Vector2.zero;
+		private string m_name = string.Empty;
 		//============================
 		// 変数
 		//============================
@@ -21,21 +22,29 @@ namespace Chipstar.Builder.Window
 		//============================
 		// 関数
 		//============================
+		public ScrollList( string name)
+		{
+			m_name = name;
+		}
 		public void Draw(IReadOnlyList<IGrouping<string, Type>> groups)
 		{
-			using (var scroll = new EditorGUILayout.ScrollViewScope(m_scrollPos))
+			using (var v = new EditorGUILayout.VerticalScope())
 			{
-				using (var vertical = new EditorGUILayout.VerticalScope())
+				EditorGUILayout.LabelField(m_name, GUI.skin.button);
+				using (var scroll = new EditorGUILayout.ScrollViewScope(m_scrollPos))
 				{
-					foreach (var group in groups)
+					using (var vertical = new EditorGUILayout.VerticalScope())
 					{
-						EditorGUILayout.LabelField(group.Key, GUI.skin.button);
-						foreach (var item in group)
+						foreach (var group in groups)
 						{
-							DrawItem(item);
+							EditorGUILayout.LabelField(group.Key, GUI.skin.button);
+							foreach (var item in group)
+							{
+								DrawItem(item);
+							}
 						}
+						m_scrollPos = scroll.scrollPosition;
 					}
-					m_scrollPos = scroll.scrollPosition;
 				}
 			}
 		}
