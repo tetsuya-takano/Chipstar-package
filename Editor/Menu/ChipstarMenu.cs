@@ -10,7 +10,7 @@ namespace Chipstar
         private const string TOOLS_PREFIX = "Tools/Chipstar/";
         private const string ASSETS_PREFIX = "Assets/Create/Chipstar/";
 
-        [MenuItem(ASSETS_PREFIX + "Create Asset")]
+        [MenuItem(ASSETS_PREFIX + "Create ChipstarAsset")]
         private static void CreateAsset()
         {
             var obj = Selection.activeObject;
@@ -23,7 +23,7 @@ namespace Chipstar
             {
                 return;
             }
-            if( !classType.IsSubclassOf(typeof(ScriptableObject)))
+            if( !classType.IsSubclassOf(typeof(ChipstarAsset)))
             {
                 return;
             }

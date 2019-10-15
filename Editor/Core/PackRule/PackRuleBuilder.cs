@@ -9,7 +9,7 @@ namespace Chipstar.Builder
     {
         IList<T> GetPackRuleList();
     }
-    public abstract class PackRuleBuilder : ScriptableObject,IPackRuleBuilder
+    public abstract class PackRuleBuilder : ChipstarAsset, IPackRuleBuilder
     {
 
     }

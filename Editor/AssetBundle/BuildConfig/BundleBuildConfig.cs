@@ -19,7 +19,7 @@ namespace Chipstar.Builder
 	/// <summary>
 	/// ビルド設定ファイル
 	/// </summary>
-	public sealed class BundleBuildConfig : ScriptableObject, IBundleBuildConfig
+	public sealed class BundleBuildConfig : ChipstarAsset, IBundleBuildConfig
 	{
 		[SerializeField] private DefaultAsset m_targetFolder = default;
 		[SerializeField] private string m_extension = ".unity3d";

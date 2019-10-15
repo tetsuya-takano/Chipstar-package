@@ -10,7 +10,7 @@ namespace Chipstar.Builder
         int Priority { get; }
         string[] Labels { get; }
     }
-    public abstract partial class PackRule : ScriptableObject, IPackRule
+    public abstract partial class PackRule : ChipstarAsset, IPackRule
     {
         [SerializeField] private int m_priority = default;
         [SerializeField] private RuleLabel m_label = default;

@@ -15,7 +15,7 @@ namespace Chipstar.Builder
 	/// <summary>
 	/// ビルド用クラス
 	/// </summary>
-	public partial class AssetBundleBuilder : ScriptableObject, IAssetBundleBuilder
+	public partial class AssetBundleBuilder : ChipstarAsset, IAssetBundleBuilder
 	{
 		//============================================
 		//	SerializeField

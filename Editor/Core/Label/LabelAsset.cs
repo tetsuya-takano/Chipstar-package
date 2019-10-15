@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Chipstar.Builder
 {
-    public class LabelAsset : ScriptableObject
-    {
+    public class LabelAsset : ChipstarAsset
+	{
         public string Label => this.name;
     }
 }

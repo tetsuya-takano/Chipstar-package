@@ -9,7 +9,7 @@ namespace Chipstar.Builder
     {
         IReadOnlyList<string> GetFiles();
     }
-    public abstract class FileCollection : ScriptableObject, IFileCollection
+    public abstract class FileCollection : ChipstarAsset, IFileCollection
     {
         public abstract IReadOnlyList<string> GetFiles();
     }

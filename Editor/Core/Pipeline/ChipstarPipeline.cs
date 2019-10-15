@@ -10,7 +10,7 @@ namespace Chipstar
 	/// <summary>
 	/// Chipstarのビルドを管理するヤツ
 	/// </summary>
-	public sealed class ChipstarPipeline : ScriptableObject
+	public sealed class ChipstarPipeline : ChipstarAsset
 	{
 		[Serializable]
 		private class PlatformSet

@@ -11,7 +11,7 @@ namespace Chipstar.Builder
     {
         IList<IBundleFileManifest> GetBundleList(IBundleBuildConfig config, IList<IBundleGroup> groups, BundlePackRule rule);
     }
-    public class BundleDataBuilder : ScriptableObject, IBundleDataBuilder
+    public class BundleDataBuilder : ChipstarAsset, IBundleDataBuilder
     {
         public IList<IBundleFileManifest> GetBundleList(IBundleBuildConfig config, IList<IBundleGroup> groups, BundlePackRule rule)
         {

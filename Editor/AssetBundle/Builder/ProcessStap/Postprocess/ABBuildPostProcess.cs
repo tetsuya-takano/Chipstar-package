@@ -18,7 +18,7 @@ namespace Chipstar.Builder
 	/// <summary>
 	/// 事後処理
 	/// </summary>
-	public class ABBuildPostProcess : ScriptableObject, IABBuildPostProcess
+	public class ABBuildPostProcess : ChipstarAsset, IABBuildPostProcess
 	{
 		[SerializeField] private StoragePath m_outputPath = default;
 		protected BuildContext Context { get; private set; }
