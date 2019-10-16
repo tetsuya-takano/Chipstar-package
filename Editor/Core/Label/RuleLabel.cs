@@ -8,7 +8,7 @@ namespace Chipstar.Builder
     {
         string[] Labels { get; }
     }
-    public abstract class RuleLabel : ScriptableObject, IRuleLabel
+    public abstract class RuleLabel : ChipstarAsset, IRuleLabel
     {
         public abstract string[] Labels { get; }
     }

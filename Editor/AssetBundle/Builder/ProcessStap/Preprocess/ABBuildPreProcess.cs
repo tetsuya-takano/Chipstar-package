@@ -15,7 +15,7 @@ namespace Chipstar.Builder
 		void OnProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig config, IList<IBundleFileManifest> assetBundleList);
 	}
 
-	public class ABBuildPreProcess : ScriptableObject, IABBuildPreProcess
+	public abstract class ABBuildPreProcess : ChipstarAsset, IABBuildPreProcess
 	{
 		//=================================
 		//

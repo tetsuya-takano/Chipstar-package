@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-	public abstract class ChipstarBuildFlow : ScriptableObject
+	public abstract class ChipstarBuildFlow : ChipstarAsset
 	{
 		public abstract void Build(RuntimePlatform platform, BuildTarget buildTarget);
 	}

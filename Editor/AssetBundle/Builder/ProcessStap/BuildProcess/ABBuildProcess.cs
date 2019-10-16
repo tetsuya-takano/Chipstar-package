@@ -17,7 +17,7 @@ namespace Chipstar.Builder
 	}
 
 
-	public abstract class ABBuildProcess : ScriptableObject, IABBuildProcess
+	public abstract class ABBuildProcess : ChipstarAsset, IABBuildProcess
 	{
 		//=========================================
 		// SerializeField

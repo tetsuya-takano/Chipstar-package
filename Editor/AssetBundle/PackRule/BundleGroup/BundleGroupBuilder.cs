@@ -10,7 +10,7 @@ namespace Chipstar.Builder
     {
         IList<IBundleGroup> GetGrouping(IBundleBuildConfig config, IBundleNameConverter converter, IReadOnlyList<string> packagedAssets);
     }
-    public class BundleGroupBuilder : ScriptableObject, IBundleGroupBuilder
+    public class BundleGroupBuilder : ChipstarAsset, IBundleGroupBuilder
     {
         public virtual IList<IBundleGroup> GetGrouping(IBundleBuildConfig config, IBundleNameConverter converter, IReadOnlyList<string> packagedAssets)
         {
