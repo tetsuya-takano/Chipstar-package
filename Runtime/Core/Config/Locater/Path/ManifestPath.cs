@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Chipstar
 {
-    public class ManifestPath : ScriptableObject
+    public class ManifestPath : ChipstarAsset
     {
         [SerializeField] private string m_identifier = default;
         [SerializeField] private string m_extension = default;

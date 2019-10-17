@@ -13,6 +13,10 @@ namespace Chipstar.Downloads
 		[SerializeField] private StoragePath m_storagePath = default;
 
 		//================================
+		// プロパティ
+		//================================
+		public string Name => m_buildMapName.Identifier;
+		//================================
 		// 関数
 		//================================
 
