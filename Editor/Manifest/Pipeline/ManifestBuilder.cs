@@ -11,7 +11,7 @@ namespace Chipstar
 {
 	public class ManifestBuilder : ChipstarAsset
 	{
-		[SerializeField] private ManifestPath m_manifestPath = default;
+		[SerializeField] private ManifestName m_manifestName = default;
 		[SerializeField] private StoragePath m_outputPath = default;
 		[SerializeField] private BuildMapPath[] m_buildMapList = new BuildMapPath[0];
 
@@ -27,7 +27,7 @@ namespace Chipstar
 				buildMapUriList[i] = new Uri(file.FullPath);
 			}
 
-			var bundleName = m_manifestPath.Identifier + m_manifestPath.Extension;
+			var bundleName = m_manifestName.Get( platform );
 			var assets = buildMapUriList.Select(c => rootUri.MakeRelativeUri(c).ToString()).ToArray();
 			var address = assets.Select(c => Path.GetFileName(c)).ToArray();
 			var bundleBuild = new AssetBundleBuild
