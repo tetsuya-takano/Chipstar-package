@@ -10,7 +10,7 @@ namespace Chipstar.Downloads.CriWare
 		[SerializeField] private DirectoryPathFormat m_format = default;
 		public override IMovieLoadDatabase Build(RuntimePlatform platform, MovieConfig config)
 		{
-			return new LocalMovieDatabase(m_format.Format(platform,m_prefix), config.ManifestName, config );
+			return new LocalMovieDatabase(m_format.Format(platform,m_prefix), config.BuildMapName, config );
 		}
 	}
 }

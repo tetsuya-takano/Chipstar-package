@@ -9,7 +9,7 @@ namespace Chipstar.Downloads.CriWare
 		[SerializeField] private string m_prefix = string.Empty;
 		public override ISoundLoadDatabase Build(RuntimePlatform platform, SoundConfig config)
 		{
-			return new LocalSoundDatabase(m_prefix, config.ManifestName, config );
+			return new LocalSoundDatabase(m_prefix, config.BuildMapName, config );
 		}
 	}
 }

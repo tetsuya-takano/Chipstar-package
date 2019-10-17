@@ -28,7 +28,7 @@ namespace Chipstar.Builder
             var json        = new BuildMapDataTable();
 			var directory = OutputPath.Get(platform);
 			var saveFilePath=  directory
-								.ToLocation(m_config.ManifestName)
+								.ToLocation(m_config.BuildMapName)
 								.FullPath;
 
 			//	旧テーブルを取得
