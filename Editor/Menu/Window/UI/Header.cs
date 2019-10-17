@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Chipstar.Builder.Window
 {
-	public class Header : MonoBehaviour
+	public class Header
 	{
 		private DefaultAsset m_createFolder = default;
 

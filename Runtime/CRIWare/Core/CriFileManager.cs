@@ -103,7 +103,7 @@ namespace Chipstar.Downloads.CriWare
 		public IEnumerator Login( RuntimePlatform platform, IManifestLoader loader, IGroupConfig config )
 		{
 			IsRunning = true;
-			var manifest = loader.GetManifest( config.ManifestName );
+			var manifest = loader.GetManifest( config.BuildMapName );
 			yield return DoLogin( platform, manifest );
 			yield return Downloader.Init( );
 		}

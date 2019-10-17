@@ -141,7 +141,7 @@ namespace Chipstar.Downloads
 		/// </summary>
 		public IEnumerator Setup(RuntimePlatform platform, IManifestLoader loader, AssetBundleConfig config)
 		{
-			var manifest = loader.GetManifest( config.ManifestName );
+			var manifest = loader.GetManifest( config.BuildMapName );
 			LoadDatabase.Create(this, platform, manifest, config);
 			yield return StorageDatabase.Initialize( platform, config );
 		}
@@ -151,7 +151,7 @@ namespace Chipstar.Downloads
 		/// </summary>
 		public IEnumerator Login(RuntimePlatform platform, IManifestLoader loader, AssetBundleConfig config)
 		{
-			var manifest = loader.GetManifest( config.ManifestName );
+			var manifest = loader.GetManifest( config.BuildMapName );
 			//	接続先
 			DownloadProvider.Init( );
 			if (!(manifest?.IsValid ?? false))

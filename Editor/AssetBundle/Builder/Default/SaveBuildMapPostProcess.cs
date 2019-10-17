@@ -14,8 +14,9 @@ namespace Chipstar.Builder
 	/// </summary>
 	public class SaveBuildMapPostProcess : ABBuildPostProcess
 	{
-		[SerializeField] private AssetBundleConfig m_config = default;
+		[SerializeField] private BuildMapPath m_buildMapPath = default;
 		[SerializeField] private BuildMapDataTableBuilder m_builder = default;
+
 		//=========================================
 		//  関数
 		//=========================================
@@ -23,65 +24,63 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// ビルドマップを作成
 		/// </summary>
-		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList )
-        {
-            var json        = new BuildMapDataTable();
-			var directory = OutputPath.Get(platform);
-			var saveFilePath=  directory
-								.ToLocation(m_config.ManifestName)
-								.FullPath;
+		protected override void DoProcess(RuntimePlatform platform, BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
+		{
+			var json = new BuildMapDataTable();
+			var buildMapFile = m_buildMapPath.Get(platform);
+			var bundleDirectory = OutputPath.Get( platform );
 
 			//	旧テーブルを取得
 			//	アセットバージョンファイルを取得
 			//	外部情報
-			var manifest     = result.Manifest;
-			var prefix       = settings.TargetDirPath;
-			json.Prefix		 = prefix;
+			var manifest = result.Manifest;
+			var prefix = settings.TargetDirPath;
+			json.Prefix = prefix;
 
-			using( var scope = new ProgressDialogScope( "Create Bundle Manifest : " + saveFilePath, bundleList.Count ) )
+			using (var scope = new ProgressDialogScope("Create Bundle Manifest : " + buildMapFile, bundleList.Count))
 			{
 				//	テーブル作成
-				for( int i = 0; i < bundleList.Count; i++ )
+				for (int i = 0; i < bundleList.Count; i++)
 				{
 					//	BuildFileData
-					var fileData= bundleList[ i ];
+					var fileData = bundleList[i];
 					//	Path
-					var file = directory.ToLocation( fileData.ABName );
+					var file = bundleDirectory.ToLocation(fileData.ABName);
 					//	Create BuildMap Data
-					var d       = CreateBuildData( file, fileData, manifest );
+					var d = CreateBuildData(file, fileData, manifest);
 
-					scope.Show( fileData.ABName, i);
-					json.Add( d );
+					scope.Show(fileData.ABName, i);
+					json.Add(d);
 				}
 			}
 			var addresses = bundleList
-								.SelectMany(c => c.Address )
+								.SelectMany(c => c.Address)
 								.Distinct()
 								.ToArray();
 
-			using( var scope = new ProgressDialogScope( "Create Asset Table : " + saveFilePath, addresses.Length) )
+			using (var scope = new ProgressDialogScope("Create Asset Table : " + buildMapFile, addresses.Length))
 			{
-				for( int i = 0; i < addresses.Length; i++)
+				for (int i = 0; i < addresses.Length; i++)
 				{
-					var address = addresses[ i ];
-					var path	= address.StartsWith( prefix ) ? address : prefix + address;
+					var address = addresses[i];
+					var path = address.StartsWith(prefix) ? address : prefix + address;
 					var d = new AssetBuildData
 					{
 						Path = address,
-						Guid = AssetDatabase.AssetPathToGUID( path )
+						Guid = AssetDatabase.AssetPathToGUID(path)
 					};
-					scope.Show( address, i);
-					json.Add( d );
+					scope.Show(address, i);
+					json.Add(d);
 				}
 			}
 			var builder = m_builder.Build();
-			builder.Write( saveFilePath, json );
+			builder.Write(buildMapFile.FullPath, json);
 		}
 
 		/// <summary>
 		/// 単一データ作成
 		/// </summary>
-		private BundleBuildData CreateBuildData( IAccessLocation file, IBundleFileManifest buildFileData, AssetBundleManifest manifest )
+		private BundleBuildData CreateBuildData(IAccessLocation file, IBundleFileManifest buildFileData, AssetBundleManifest manifest)
 		{
 			var identifier = buildFileData?.Identifier;
 			var abName = buildFileData?.ABName;

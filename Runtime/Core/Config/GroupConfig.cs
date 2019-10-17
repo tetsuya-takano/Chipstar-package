@@ -8,7 +8,7 @@ namespace Chipstar
 {
 	public interface IGroupConfig
 	{
-		string ManifestName { get; }
+		string BuildMapName { get; }
 
 		IAccessPoint GetSaveStorage(RuntimePlatform platform);
 		string GetRelativePath(RuntimePlatform platform, string name, string hash, string extension);
@@ -18,7 +18,7 @@ namespace Chipstar
 	public class GroupConfig : ScriptableObject, IGroupConfig
 	{
 		[SerializeField] private string m_identifier = default;
-		[SerializeField] private string m_manifestName = default;
+		[SerializeField] private BuildMapName m_buildMapName = default;
 		[SerializeField] private string m_saveDataName = default;
 		[SerializeField] private ServerPath m_serverPath = default;
 		[SerializeField] private StoragePath m_downloadStorage = default;
@@ -26,7 +26,7 @@ namespace Chipstar
 
 		public string Identifier => m_identifier;
 		public string SaveDataName => m_saveDataName;
-		public string ManifestName => m_manifestName;
+		public string BuildMapName => m_buildMapName.Identifier;
 		public IAccessPoint GetSaveStorage(RuntimePlatform platform)
 		{
 			return m_downloadStorage.Get(platform);

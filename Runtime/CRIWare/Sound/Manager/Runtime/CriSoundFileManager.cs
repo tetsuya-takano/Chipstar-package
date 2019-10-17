@@ -73,7 +73,7 @@ namespace Chipstar.Downloads.CriWare
 		{
 			m_cacheDB = m_saveBuilder.Read( CacheDbLocation.FullPath );
 			yield return null;
-			var manifest = loader.GetManifest( config.ManifestName );
+			var manifest = loader.GetManifest( config.BuildMapName );
 			m_builtinDatabase = config.BuildDatabase( platform );
 			yield return m_builtinDatabase.Build( platform, manifest );
 			ChipstarLog.Log_ReadLocalTable(m_cacheDB, CacheDbLocation);
