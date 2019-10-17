@@ -10,9 +10,6 @@ namespace Chipstar
 	public interface IManifestConfig
 	{
 		string Identifier { get; }
-		AssetBundleConfig BundleConfig { get; }
-		SoundConfig SoundConfig { get; }
-		MovieConfig MovieConfig { get; }
 		IAccessPoint GetSaveStorage(RuntimePlatform platform);
 		IEntryPoint GetEntryPoint( RuntimePlatform platform );
 		IManifestLoader BuildLoader(RuntimePlatform platform);
@@ -31,19 +28,10 @@ namespace Chipstar
 		[SerializeField] private StoragePath m_saveStorage = default;
 		[SerializeField] private ManifestLoaderBuilder m_builder = default;
 
-		[Header("Manager Config")]
-		[SerializeField] private AssetBundleConfig m_bundleConfig = default;
-		[SerializeField] private SoundConfig m_soundConfig = default;
-		[SerializeField] private MovieConfig m_movieConfig = default;
-
 		//===========================
 		// プロパティ
 		//===========================
 		public string Identifier => m_identifier;
-
-		public AssetBundleConfig BundleConfig => m_bundleConfig;
-		public SoundConfig SoundConfig => m_soundConfig;
-		public MovieConfig MovieConfig => m_movieConfig;
 
 		//===========================
 		// 関数
@@ -53,8 +41,6 @@ namespace Chipstar
 		{
 			return m_entryPoint.Get( platform );
 		}
-
-
 		public IAccessPoint GetSaveStorage(RuntimePlatform platform)
 		{
 			return m_saveStorage.Get(platform);
