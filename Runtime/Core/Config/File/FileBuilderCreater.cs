@@ -14,8 +14,8 @@ namespace Chipstar
 		protected FileReadOption ReadOption => m_readOption;
 		protected FileWriteOption WriteOption => m_writeOption;
 
-		protected IFileParser<T> GetParser() => DoParser(converter.Build());
-		protected IFileWriter<T> GetWriter() => DoWriter(converter.Build());
+		public IFileParser<T> GetParser() => DoParser(converter.Build());
+		public IFileWriter<T> GetWriter() => DoWriter(converter.Build());
 
 		public abstract IFileBuilder<T> Build();
 
