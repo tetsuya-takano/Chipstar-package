@@ -10,6 +10,7 @@ namespace Chipstar.Downloads
 		// SerializeField
 		//================================
 		[SerializeField] private BuildMapName m_buildMapName = default;
+		[SerializeField] private string m_extensions = string.Empty;
 		[SerializeField] private StoragePath m_storagePath = default;
 
 		//================================
@@ -22,7 +23,7 @@ namespace Chipstar.Downloads
 
 		public IAccessLocation Get( RuntimePlatform platform)
 		{
-			return m_storagePath.Get(platform).ToLocation(m_buildMapName.Identifier);
+			return m_storagePath.Get(platform).ToLocation(m_buildMapName.Identifier + m_extensions );
 		}
 	}
 }
