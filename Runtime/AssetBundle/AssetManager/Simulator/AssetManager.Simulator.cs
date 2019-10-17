@@ -18,12 +18,57 @@ namespace Chipstar.Downloads
 		//====================================
 		//	class
 		//====================================
-		private sealed class DummyData : RuntimeBundleData
+		private sealed class DummyData : IRuntimeBundleData
 		{
-			public DummyData( string name )
+			public IAccessLocation Url => default;
+
+			public IRuntimeBundleData[] Dependencies => Array.Empty<IRuntimeBundleData>();
+
+			public bool IsOnMemory => true;
+
+			public bool IsCached => true;
+
+			public bool IsScene => false;
+
+			public long FileSize => 0;
+
+			public string[] Labels => Array.Empty<string>();
+
+			public long PreviewSize => 0;
+
+			public string Identifier { get; }
+
+			public string Path => string.Empty;
+
+			public string Hash => string.Empty;
+
+			public uint Crc => 0;
+
+			public bool IsFree => false;
+
+			public int RefCount => 0;
+
+			public DummyData(string v)
 			{
-				base.Set(new DummyBundle(name));
+				Identifier = v;
 			}
+
+			public void AddDeepRef() { }
+			public void AddRef() { }
+			public void ClearRef() { }
+
+			public void Dispose() { }
+
+			public AssetBundleRequest LoadAsync<TAsset>(string path) where TAsset : UnityEngine.Object => default;
+			public void OnMemory(AssetBundle bundle) { }
+
+			public void ReleaseDeepRef() { }
+
+			public void ReleaseRef() { }
+
+			public void Set(IRuntimeBundleData[] dependencies) { }
+
+			public void Unload() { }
 		}
 		private sealed class DummyBundle : IBundleBuildData
 		{

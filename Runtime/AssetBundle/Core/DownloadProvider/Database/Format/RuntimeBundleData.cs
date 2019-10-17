@@ -11,7 +11,6 @@ namespace Chipstar.Downloads
 	{
 		IAccessLocation Url { get; }
 		IRuntimeBundleData[] Dependencies { get; }
-		AssetData[] Assets { get; }
 		bool IsOnMemory { get; }
 		bool IsCached { get; }
 		bool IsScene { get; }
@@ -19,8 +18,6 @@ namespace Chipstar.Downloads
 		string[] Labels { get; }
 
 		AssetBundleRequest LoadAsync<TAsset>(string path) where TAsset : UnityEngine.Object;
-
-		void Set(IBundleBuildData data);
 		void Set(IRuntimeBundleData[] dependencies);
 		void Unload();
 		void OnMemory(AssetBundle bundle);
@@ -75,48 +72,52 @@ namespace Chipstar.Downloads
 		}
 	}
 
-	public abstract class BundleData : IRuntimeBundleData
+	public class RuntimeBundleData : IRuntimeBundleData
 	{
+		//========================================
+		//  Field
+		//========================================
+		private IBundleBuildData m_manifest = default;
+		private IAssetManager m_manager = default;
 		//========================================
 		//  プロパティ
 		//========================================
 
-		public string Identifier { get; private set; }
+		public string Identifier => m_manifest.Identifier;
+		public long FileSize => m_manifest.FileSize;
+		public string[] Labels => m_manifest.Labels;
+		public string Path => m_manifest.ABName;
+		public string Hash => m_manifest.Hash;
+		public uint Crc => m_manifest.Crc;
+		public bool IsCached => m_manager.HasCachedBundle(Identifier);
+		long ICachableBundle.PreviewSize { get { return FileSize; } }
+
 		public IRuntimeBundleData[] Dependencies { get; private set; }
-		public AssetData[] Assets { get; private set; }
 		public bool IsOnMemory { get; private set; }
-		public bool IsCached { get; private set; }
 		public bool IsScene { get { return IsOnMemory ? Bundle.isStreamedSceneAssetBundle : false; } }
-		public long FileSize { get; private set; }
 		public bool IsFree { get { return RefCount <= 0; } }
-		public string[] Labels { get; private set; }
 		protected AssetBundle Bundle { get; set; }
 		public int RefCount { get; private set; }
-		public string Hash { get; private set; }
-		public uint Crc { get; private set; }
-		public string Path { get; private set; }
 		public IAccessLocation Url { get; }
-		long ICachableBundle.PreviewSize { get { return FileSize; } }
+
 		//========================================
 		//  関数
 		//========================================
+
+		public RuntimeBundleData(IAssetManager manager, IBundleBuildData build, RuntimePlatform platform, AssetBundleConfig config)
+		{
+			m_manager = manager;
+			m_manifest = build;
+			Url = config.GetLocation(platform, Path);
+		}
 
 		public void Dispose()
 		{
 			ClearRef();
 			Unload();
 			Dependencies = Array.Empty<IRuntimeBundleData>();
-
-		}
-
-		public void Set( IBundleBuildData data)
-		{
-			Identifier = string.Intern(data.Identifier);
-			Path = data.ABName;
-			Hash = data.Hash;
-			Crc = data.Crc;
-			FileSize = data.FileSize;
-			Labels = data.Labels;
+			m_manager = default;
+			m_manifest = default;
 		}
 
 		public void Set(IRuntimeBundleData[] dependencies)
@@ -144,6 +145,7 @@ namespace Chipstar.Downloads
 		{
 			if (Bundle == null)
 			{
+				Debug.Log("Bundle is Null");
 				return null;
 			}
 			return Bundle.LoadAssetAsync<TAssetType>(path);

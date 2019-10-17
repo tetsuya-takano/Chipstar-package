@@ -9,7 +9,8 @@ namespace Chipstar.Downloads
 		public override ILoadDatabase Build(RuntimePlatform platform, AssetBundleConfig config)
 		{
 			var parser = m_tableBuilder.GetParser();
-			return new LoadDatabase<BuildMapDataTable, BundleBuildData, AssetBuildData, RuntimeBundleData>(parser, platform, config);
+			var dataCreater = new RuntimeBundleDataCreater();
+			return new LoadDatabase<BuildMapDataTable, BundleBuildData, AssetBuildData>(parser, dataCreater, platform, config);
 		}
 	}
 }

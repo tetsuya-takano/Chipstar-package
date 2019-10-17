@@ -199,30 +199,6 @@ namespace Chipstar.Downloads
 		//===============================
 		//  関数
 		//===============================
-
-		public static BuildMapDataTable Read( string saveFilePath )
-		{
-			if( !File.Exists( saveFilePath ))
-			{
-				return new BuildMapDataTable();
-			}
-			var json = File.ReadAllText( saveFilePath, Encode );
-			return JsonUtility.FromJson<BuildMapDataTable>( json );
-		}
-
-		public static bool Write( string saveFilePath, BuildMapDataTable table )
-		{
-			var contents    = JsonUtility.ToJson( table, true );
-			if( string.IsNullOrWhiteSpace( contents))
-			{
-				return false;
-			}
-			//  書き込み
-			File.WriteAllText( saveFilePath, contents, Encode );
-
-			return true;
-		}
-
 		public BuildMapDataTable()
         {
             m_bundleList = new List<BundleBuildData>();
@@ -252,23 +228,6 @@ namespace Chipstar.Downloads
 			m_runtimeAssetTable.Add( key, data );
 		}
 
-		public BundleBuildData GetBundle( string abName )
-		{
-			if( !m_runtimeBundleTable.ContainsKey( abName ))
-			{
-				return default( BundleBuildData );
-			}
-			return m_runtimeBundleTable[ abName ];
-		}
-		public AssetBuildData GetAsset( string path )
-		{
-			if( !m_runtimeAssetTable.ContainsKey( path) )
-			{
-				return default( AssetBuildData );
-			}
-			return m_runtimeAssetTable[path];
-		}
-
 		/// <summary>
 		/// 
 		/// </summary>
@@ -286,7 +245,7 @@ namespace Chipstar.Downloads
 		/// </summary>
 		void ISerializationCallbackReceiver.OnAfterDeserialize()
 		{
-			m_runtimeBundleTable = m_bundleList.ToDictionary( c => c.ABName );
+			m_runtimeBundleTable = m_bundleList.ToDictionary( c => c.Identifier );
 			m_bundleList.Clear();
 
 			m_runtimeAssetTable = m_assetDBList.ToDictionary( c => c.Path );
