@@ -62,7 +62,7 @@ namespace Chipstar.Downloads
 		}
 		public string Identifier
 		{
-			get { return m_identifier ?? m_path; }
+			get { return m_identifier; }
 			set { m_identifier = value; }
 		}
 		public string[] Assets
@@ -99,29 +99,6 @@ namespace Chipstar.Downloads
 			set { m_labels = value; }
 		}
 
-		//===============================
-		//  関数
-		//===============================
-		public BundleBuildData(
-			string key,
-			string abName,
-			string[] assets,
-			string[] dependenceis,
-			string hash,
-			uint crc,
-			long size,
-			string[] labels
-			)
-		{
-			m_path = abName;
-			m_identifier = key;
-			m_assets = assets;
-			m_hash = hash;
-			m_crc = crc;
-			m_dependencies = dependenceis;
-			m_fileSize = size;
-			m_labels = labels;
-		}
 
 		public void OnBeforeSerialize()
 		{

@@ -35,11 +35,12 @@ namespace Chipstar
 
 			var bundleName = m_manifestPath.Identifier + m_manifestPath.Extension;
 			var assets = buildMapUriList.Select(c => rootUri.MakeRelativeUri(c).ToString()).ToArray();
+			var address = assets.Select(c => Path.GetFileName( c )).ToArray();
 			var bundleBuild = new AssetBundleBuild
 			{
 				assetBundleVariant = string.Empty,
 				assetNames = assets,
-				addressableNames = assets,
+				addressableNames = address,
 				assetBundleName = bundleName
 			};
 			var outputPath = m_outputPath.Get(platform).BasePath;
