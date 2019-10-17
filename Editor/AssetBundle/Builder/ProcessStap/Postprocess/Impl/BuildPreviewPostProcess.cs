@@ -14,7 +14,6 @@ namespace Chipstar.Builder
 	/// <typeparam name="T"></typeparam>
 	public sealed class BuildPreviewPostProcess : ABBuildPostProcess
 	{
-		[SerializeField] private string m_fileName = "preview.json";
 
 		protected override void DoProcess(RuntimePlatform platform, UnityEditor.BuildTarget target, IBundleBuildConfig settings, ABBuildResult result, IList<IBundleFileManifest> bundleList)
 		{
@@ -68,7 +67,7 @@ namespace Chipstar.Builder
 			};
 			foreach( var c in resultContents)
 			{
-				var filePath = outputPath.ToLocation( m_fileName );
+				var filePath = outputPath.ToLocation( c.name + ".txt" );
 				File.WriteAllText(filePath.FullPath, c.content.ToString());
 			}
 		}
