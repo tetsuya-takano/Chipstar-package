@@ -86,7 +86,7 @@ namespace Chipstar.Downloads
 		public string Identifier => m_manifest.Identifier;
 		public long FileSize => m_manifest.FileSize;
 		public string[] Labels => m_manifest.Labels;
-		public string Path => m_manifest.ABName;
+		public string Path => m_manifest.Path;
 		public string Hash => m_manifest.Hash;
 		public uint Crc => m_manifest.Crc;
 		public bool IsCached => m_manager.HasCachedBundle(Identifier);

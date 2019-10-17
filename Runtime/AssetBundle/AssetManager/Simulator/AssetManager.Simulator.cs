@@ -72,7 +72,7 @@ namespace Chipstar.Downloads
 		}
 		private sealed class DummyBundle : IBundleBuildData
 		{
-			public string ABName { get; }
+			public string Path { get; }
 
 			public string[] Assets => Array.Empty<string>();
 
@@ -86,10 +86,9 @@ namespace Chipstar.Downloads
 
 			public string[] Labels => Array.Empty<string>();
 
-			public string Path => ABName;
-			public string Identifier => string.Empty;
+			public string Identifier { get; }
 
-			public DummyBundle( string name) { ABName = name; }
+			public DummyBundle( string name) { Identifier = name; }
 		}
 		//====================================
 		//	プロパティ

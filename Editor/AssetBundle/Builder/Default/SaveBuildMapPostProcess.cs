@@ -88,7 +88,7 @@ namespace Chipstar.Builder
 
 			var d = new BundleBuildData
 			{
-				ABName = abName,
+				Path = abName,
 				Identifier = identifier,
 				Assets = buildFileData?.Address,
 				Hash = hash,
