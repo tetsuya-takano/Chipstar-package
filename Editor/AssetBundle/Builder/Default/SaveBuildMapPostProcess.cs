@@ -30,13 +30,11 @@ namespace Chipstar.Builder
 			var buildMapFile = m_buildMapPath.Get(platform);
 			var bundleDirectory = OutputPath.Get( platform );
 
-			//	旧テーブルを取得
-			//	アセットバージョンファイルを取得
 			//	外部情報
 			var manifest = result.Manifest;
 			var prefix = settings.TargetDirPath;
 			json.Prefix = prefix;
-
+			var table = bundleList.ToDictionary(c => c.ABName, c => c.Identifier);
 			using (var scope = new ProgressDialogScope("Create Bundle Manifest : " + buildMapFile, bundleList.Count))
 			{
 				//	テーブル作成
@@ -47,8 +45,7 @@ namespace Chipstar.Builder
 					//	Path
 					var file = bundleDirectory.ToLocation(fileData.ABName);
 					//	Create BuildMap Data
-					var d = CreateBuildData(file, fileData, manifest);
-
+					var d = CreateBuildData(file, fileData, table, manifest);
 					scope.Show(fileData.ABName, i);
 					json.Add(d);
 				}
@@ -80,18 +77,18 @@ namespace Chipstar.Builder
 		/// <summary>
 		/// 単一データ作成
 		/// </summary>
-		private BundleBuildData CreateBuildData(IAccessLocation file, IBundleFileManifest buildFileData, AssetBundleManifest manifest)
+		private BundleBuildData CreateBuildData(IAccessLocation file, IBundleFileManifest buildFileData, IReadOnlyDictionary<string, string> table, AssetBundleManifest manifest)
 		{
 			var identifier = buildFileData?.Identifier;
 			var abName = buildFileData?.ABName;
 			var crc = FsUtillity.TryGetCrc(file.FullPath);
 			var hash = manifest.TryGetHashString(abName);
-			var dependencies = manifest.TryGetDependencies(abName);
+			var dependencies = manifest.TryGetDependencies(abName).Select(c => table[c]).ToArray();
 			var size = FsUtillity.TryGetFileSize(file.FullPath);
 
 			var d = new BundleBuildData
 			{
-				ABName = abName,
+				Path = abName,
 				Identifier = identifier,
 				Assets = buildFileData?.Address,
 				Hash = hash,

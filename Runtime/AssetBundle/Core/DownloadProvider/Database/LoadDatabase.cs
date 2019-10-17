@@ -21,13 +21,11 @@ namespace Chipstar.Downloads
 		bool Contains(string path);
 	}
 
-	public class LoadDatabase<TTable, TBundle, TAsset, TRuntimeData> : ILoadDatabase
+	public class LoadDatabase<TTable, TBundle, TAsset> : ILoadDatabase
 
 			where TBundle : IBundleBuildData
 			where TAsset : IAssetBuildData
 			where TTable : IBuildMapDataTable<TBundle, TAsset>
-
-			where TRuntimeData : IRuntimeBundleData, new()
 	{
 		//=========================================
 		//  class
@@ -37,6 +35,7 @@ namespace Chipstar.Downloads
 		//  変数
 		//=========================================
 		private IFileParser<TTable> m_parser = null;
+		private IRuntimeBundleDataCreater m_bundleDataCreater = default;
 		private AssetBundleConfig m_config = default;
 		private IAccessPoint m_server = default;
 		private Dictionary<string, IRuntimeBundleData> m_bundleTable = new Dictionary<string, IRuntimeBundleData>(); // バンドル名   → バンドルデータテーブル
@@ -60,9 +59,15 @@ namespace Chipstar.Downloads
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public LoadDatabase(IFileParser<TTable> parser, RuntimePlatform platform, AssetBundleConfig config)
+		public LoadDatabase(
+			IFileParser<TTable> parser, 
+			IRuntimeBundleDataCreater bundleDataCreater,
+			RuntimePlatform platform, 
+			AssetBundleConfig config
+		)
 		{
 			m_parser = parser;
+			m_bundleDataCreater = bundleDataCreater;
 			m_config = config;
 			m_server = m_config.GetServer(platform);
 		}
@@ -92,16 +97,9 @@ namespace Chipstar.Downloads
 				CreateResult = ChipstarResult.ClientError("BuildMap Get Error");
 				return;
 			}
-			CreateResult = CreateImpl(manifest);
+			CreateResult = CreateImpl(manager, platform, manifest, config);
 		}
-
-		public async Task CreateAsync( RuntimePlatform platform, IVersionManifest manifest )
-		{
-			var result = await Task.Run(() => CreateImpl( manifest ));
-
-			CreateResult = result;
-		}
-		private ResultCode CreateImpl( IVersionManifest manifest )
+		private ResultCode CreateImpl(IAssetManager manager, RuntimePlatform platform, IVersionManifest manifest, AssetBundleConfig config )
 		{
 			var table = m_parser.Parse( manifest.RawData );
 			ChipstarLog.Log_GetBuildMap<TTable, TBundle, TAsset>(table);
@@ -119,14 +117,13 @@ namespace Chipstar.Downloads
 			//  バンドルの一覧
 			foreach (var bundle in table.BundleList)
 			{
-				var runtime = new TRuntimeData();
-                runtime.Set(bundle);
-                m_bundleTable.Add( bundle.ABName, runtime);
+				var runtime = m_bundleDataCreater.Create(manager, bundle, platform, config);
+                m_bundleTable.Add( bundle.Identifier, runtime);
 			}
 			//  依存関係とアセットデータを接続
 			foreach (var bundle in table.BundleList)
 			{
-				var runtime = m_bundleTable[bundle.ABName];
+				var runtime = m_bundleTable[bundle.Identifier];
 				var dependencies = CreateDependencies(bundle);
 				var assets = CreateAssets(bundle);
 				foreach (var asset in assets)

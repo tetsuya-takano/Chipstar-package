@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-	public class EntryPointConfig : ScriptableObject
+	public class EntryPointConfig : ChipstarAsset
 	{
 		[Tooltip("サーバー")]
 		[SerializeField] private ServerPath m_serverPath = default;

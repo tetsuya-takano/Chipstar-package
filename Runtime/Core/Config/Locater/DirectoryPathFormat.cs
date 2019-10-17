@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Chipstar
 {
-    public class DirectoryPathFormat : ScriptableObject
-    {
+    public class DirectoryPathFormat : ChipstarAsset
+	{
         [Tooltip("0:platform,1:identifier")]
         [SerializeField] private string m_format = string.Empty;
 

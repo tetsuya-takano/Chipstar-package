@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Chipstar
 {
 
-	public abstract class VersionPath : ScriptableObject
+	public abstract class VersionPath : ChipstarAsset
 	{
 		public abstract Hash128 Get( RuntimePlatform platform );
 	}

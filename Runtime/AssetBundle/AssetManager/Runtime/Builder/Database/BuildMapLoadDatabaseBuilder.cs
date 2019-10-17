@@ -5,13 +5,12 @@ namespace Chipstar.Downloads
 {
 	public class BuildMapLoadDatabaseBuilder : LoadDatabaseBuilder
 	{
+		[SerializeField] private BuildMapDataTableBuilder m_tableBuilder = default;
 		public override ILoadDatabase Build(RuntimePlatform platform, AssetBundleConfig config)
 		{
-			var parser = new JsonParser<BuildMapDataTable>
-			(
-				new CompressConverter(), BuildMapDataTable.Encode
-			);
-			return new LoadDatabase<BuildMapDataTable, BundleBuildData, AssetBuildData, RuntimeBundleData>(parser, platform, config);
+			var parser = m_tableBuilder.GetParser();
+			var dataCreater = new RuntimeBundleDataCreater();
+			return new LoadDatabase<BuildMapDataTable, BundleBuildData, AssetBuildData>(parser, dataCreater, platform, config);
 		}
 	}
 }

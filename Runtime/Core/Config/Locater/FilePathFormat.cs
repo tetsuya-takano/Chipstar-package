@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-    public class FilePathFormat : ScriptableObject
+    public class FilePathFormat : ChipstarAsset
     {
         [Tooltip("0:platform,1:name,2:hash + .ext")]
         [SerializeField] private string m_format = string.Empty;

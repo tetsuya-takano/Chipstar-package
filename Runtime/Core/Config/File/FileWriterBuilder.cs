@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Chipstar
 {
-	public abstract class FileWriterBuilder<T> : ScriptableObject
+	public abstract class FileWriterBuilder<T> : ChipstarAsset
 	{
 		[SerializeField] private FileConverterBuilder m_converter = default;
 

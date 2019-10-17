@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar.Downloads.CriWare
 {
-	public abstract class MovieDatabaseBuilder : ScriptableObject
+	public abstract class MovieDatabaseBuilder : ChipstarAsset
 	{
 		public abstract IMovieLoadDatabase Build(RuntimePlatform platform, MovieConfig config);
 	}
