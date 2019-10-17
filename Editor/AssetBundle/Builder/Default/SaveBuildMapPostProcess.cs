@@ -15,7 +15,6 @@ namespace Chipstar.Builder
 	public class SaveBuildMapPostProcess : ABBuildPostProcess
 	{
 		[SerializeField] private BuildMapPath m_buildMapPath = default;
-		[SerializeField] private AssetBundleConfig m_config = default;
 		[SerializeField] private BuildMapDataTableBuilder m_builder = default;
 
 		//=========================================
