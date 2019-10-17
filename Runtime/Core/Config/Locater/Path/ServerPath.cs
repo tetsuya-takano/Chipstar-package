@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-	public abstract class ServerPath : ScriptableObject
+	public abstract class ServerPath : ChipstarAsset
 	{
 		public abstract IAccessPoint Get( RuntimePlatform platform );
 	}

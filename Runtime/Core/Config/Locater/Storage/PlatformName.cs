@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-    public class PlatformName : ScriptableObject
+    public class PlatformName : ChipstarAsset
     {
         [Serializable]
         private sealed class PlatformToName
