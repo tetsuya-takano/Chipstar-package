@@ -29,13 +29,12 @@ namespace Chipstar
 			for( var i = 0; i < m_buildMapList.Length; i++)
 			{
 				var buildMapPath = m_buildMapList[ i ];
-				var file = new Uri(buildMapPath.Get( platform ).FullPath);
-				var uri = rootUri.MakeRelativeUri(file);
-				buildMapUriList[i] = uri;
+				var file = buildMapPath.Get( platform );
+				buildMapUriList[i] = new Uri( file.FullPath );
 			}
 
 			var bundleName = m_manifestPath.Identifier + m_manifestPath.Extension;
-			var assets = buildMapUriList.Select(c => c.AbsolutePath).ToArray();
+			var assets = buildMapUriList.Select(c => rootUri.MakeRelativeUri(c).ToString()).ToArray();
 			var bundleBuild = new AssetBundleBuild
 			{
 				assetBundleVariant = string.Empty,
