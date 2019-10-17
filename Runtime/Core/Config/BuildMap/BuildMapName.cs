@@ -6,8 +6,8 @@ namespace Chipstar.Downloads
 {
 	public class BuildMapName : ChipstarAsset
 	{
-		[SerializeField] private string m_Name = string.Empty;
+		[SerializeField] private string m_identifier = string.Empty;
 
-		public string Name => m_Name;
+		public string Identifier => m_identifier;
 	}
 }

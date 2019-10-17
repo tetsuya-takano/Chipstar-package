@@ -18,7 +18,7 @@ namespace Chipstar.Downloads
 
 		public IAccessLocation Get( RuntimePlatform platform)
 		{
-			return m_storagePath.Get(platform).ToLocation(m_buildMapName.Name);
+			return m_storagePath.Get(platform).ToLocation(m_buildMapName.Identifier);
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace Chipstar
 
 		public string Identifier => m_identifier;
 		public string SaveDataName => m_saveDataName;
-		public string BuildMapName => m_buildMapName.Name;
+		public string BuildMapName => m_buildMapName.Identifier;
 		public IAccessPoint GetSaveStorage(RuntimePlatform platform)
 		{
 			return m_downloadStorage.Get(platform);
