@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Chipstar
 {
-	public abstract class FileBuilderCreater<T> : ScriptableObject
+	public abstract class FileBuilderCreater<T> : ChipstarAsset
 	{
 		[SerializeField] private FileConverterBuilder converter = default;
 		[SerializeField] FileWriteOption m_writeOption = FileWriteOption.None;

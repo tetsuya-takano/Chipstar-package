@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar.Downloads.CriWare
 {
-	public abstract class BuiltinDatabaseBuilder : ScriptableObject
+	public abstract class BuiltinDatabaseBuilder : ChipstarAsset
 	{
 
 	}

@@ -15,7 +15,7 @@ namespace Chipstar
 		IAccessLocation GetLocation(RuntimePlatform platform, string path);
 		IAccessLocation GetSaveFile(RuntimePlatform platform);
 	}
-	public class GroupConfig : ScriptableObject, IGroupConfig
+	public class GroupConfig : ChipstarAsset, IGroupConfig
 	{
 		[SerializeField] private string m_identifier = default;
 		[SerializeField] private BuildMapName m_buildMapName = default;

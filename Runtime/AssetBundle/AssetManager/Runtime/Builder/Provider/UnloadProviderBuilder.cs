@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar.Downloads
 {
-	public class UnloadProviderBuilder : ScriptableObject
+	public class UnloadProviderBuilder : ChipstarAsset
 	{
 		public IAssetUnloadProvider Build(RuntimePlatform platform, AssetBundleConfig config, ILoadDatabase database)
 		{

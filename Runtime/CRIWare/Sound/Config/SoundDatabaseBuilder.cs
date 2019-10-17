@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar.Downloads.CriWare
 {
-	public abstract class SoundDatabaseBuilder : ScriptableObject
+	public abstract class SoundDatabaseBuilder : ChipstarAsset
 	{
 		public abstract ISoundLoadDatabase Build( RuntimePlatform platform, SoundConfig config );
 	}

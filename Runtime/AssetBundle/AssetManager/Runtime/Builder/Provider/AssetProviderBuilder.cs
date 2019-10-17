@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Chipstar.Downloads
 {
-	public class AssetProviderBuilder : ScriptableObject
+	public class AssetProviderBuilder : ChipstarAsset
 	{
 		public virtual IAssetLoadProvider Build(RuntimePlatform platform, AssetBundleConfig config, ILoadDatabase database)
 		{

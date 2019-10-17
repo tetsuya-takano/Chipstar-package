@@ -15,7 +15,7 @@ namespace Chipstar
 		IManifestLoader BuildLoader(RuntimePlatform platform);
 	}
 
-	public class ManifestConfig : ScriptableObject, IManifestConfig
+	public class ManifestConfig : ChipstarAsset, IManifestConfig
 	{
 		//===========================
 		// SerializeField
