@@ -16,7 +16,7 @@ namespace Chipstar
 		public virtual IManifestAccess Get(IAccessPoint server, RuntimePlatform platform )
 		{
 			var serverUri = new Uri(server.BasePath);
-			var manifestPath = ManifestName.Get(platform);
+			var manifestPath = Path.Combine(PlatformName.Get(platform), ManifestName.Get(platform));
 			return new ManifestAccess
 			{
 				Uri = new Uri(serverUri, manifestPath),

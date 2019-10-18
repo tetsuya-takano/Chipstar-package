@@ -8,7 +8,6 @@ namespace Chipstar
 	{
 		[SerializeField] private string m_identifier = default;
 		[SerializeField] private string m_extension = default;
-
 		public string Identifier => m_identifier;
 		public string Extension => m_extension;
 
