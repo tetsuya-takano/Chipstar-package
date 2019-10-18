@@ -13,6 +13,7 @@ namespace Chipstar
 		IAccessPoint GetSaveStorage(RuntimePlatform platform);
 		IEntryPoint GetEntryPoint( RuntimePlatform platform );
 		IManifestLoader BuildLoader(RuntimePlatform platform);
+		IManifestVersionLoader BuildVersionLoader(RuntimePlatform platform);
 	}
 
 	public class ManifestConfig : ChipstarAsset, IManifestConfig
@@ -26,8 +27,9 @@ namespace Chipstar
 		[SerializeField] private EntryPointConfig m_entryPoint = default;
 		[Tooltip("Manifestの保存先")]
 		[SerializeField] private StoragePath m_saveStorage = default;
+		[Tooltip("システム")]
 		[SerializeField] private ManifestLoaderBuilder m_builder = default;
-
+		[SerializeField] private ManifestVersionLoaderBuilder m_versionLoader = default;
 		//===========================
 		// プロパティ
 		//===========================
@@ -49,6 +51,10 @@ namespace Chipstar
 		public IManifestLoader BuildLoader(RuntimePlatform platform)
 		{
 			return m_builder.Build(platform, this);
+		}
+		public IManifestVersionLoader BuildVersionLoader(RuntimePlatform platform)
+		{
+			return m_versionLoader.Build( platform, this );
 		}
 	}
 }

@@ -86,7 +86,7 @@ namespace Chipstar.Downloads
 		public string Identifier => m_manifest.Identifier;
 		public long FileSize => m_manifest.FileSize;
 		public string[] Labels => m_manifest.Labels;
-		public string Path => m_manifest.Path;
+		public string Path { get; }
 		public string Hash => m_manifest.Hash;
 		public uint Crc => m_manifest.Crc;
 		public bool IsCached => m_manager.HasCachedBundle(Identifier);
@@ -108,7 +108,8 @@ namespace Chipstar.Downloads
 		{
 			m_manager = manager;
 			m_manifest = build;
-			Url = config.GetLocation(platform, Path);
+			Path = config.GetRelativePath(platform, m_manifest.Path, m_manifest.Hash, config.Extension);
+			Url = config.GetLocation(platform, m_manifest.Path );
 		}
 
 		public void Dispose()
