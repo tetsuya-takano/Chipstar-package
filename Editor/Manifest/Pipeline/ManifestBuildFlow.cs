@@ -15,13 +15,16 @@ namespace Chipstar
 		// SerializeField
 		//==========================================
 		[SerializeField] private ManifestBuilder m_manifestBuilder = default;
+		[SerializeField] private VersionBuilder m_versionBuilder = default;
 
 		//==========================================
 		// 関数
 		//==========================================
 		public override void Build(RuntimePlatform platform, BuildTarget buildTarget)
 		{
-			m_manifestBuilder.Build(platform, buildTarget);
+			var version = m_manifestBuilder.Build(platform, buildTarget);
+
+			m_versionBuilder.Build(version, platform);
 		}
 	}
 }

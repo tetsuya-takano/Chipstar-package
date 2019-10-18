@@ -15,7 +15,7 @@ namespace Chipstar
 		[SerializeField] private StoragePath m_outputPath = default;
 		[SerializeField] private BuildMapPath[] m_buildMapList = new BuildMapPath[0];
 
-		public void Build(RuntimePlatform platform, BuildTarget buildTarget)
+		public ManifestVersion Build(RuntimePlatform platform, BuildTarget buildTarget)
 		{
 			var rootUri = new Uri(System.Environment.CurrentDirectory + "/");
 			var buildMapUriList = new Uri[m_buildMapList.Length];
@@ -45,6 +45,11 @@ namespace Chipstar
 				targetPlatform: buildTarget,
 				builds: new[] { bundleBuild }
 			);
+
+			return new ManifestVersion
+			{
+				Hash = m.GetAssetBundleHash(bundleName),
+			};
 		}
 	}
 }
