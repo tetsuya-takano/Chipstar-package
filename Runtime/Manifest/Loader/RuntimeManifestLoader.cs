@@ -15,6 +15,7 @@ namespace Chipstar.Downloads
 		//=================================
 		//	変数
 		//=================================
+		private IManifestVersionLoader m_versionLoader = default;
 		private Cache m_cache;
 		private AssetBundle m_bundle = null;
 		private UnityEngine.Object[] m_assets;
@@ -24,6 +25,7 @@ namespace Chipstar.Downloads
 
 		public RuntimeManifestLoader(IManifestConfig config, RuntimePlatform platform)
 		{
+			m_versionLoader = config.BuildVersionLoader(platform);
 			var location = config.GetSaveStorage(platform);
 			var dirPath = location.BasePath;
 			if (!Directory.Exists( dirPath ))
@@ -51,7 +53,7 @@ namespace Chipstar.Downloads
 		/// <summary>
 		/// Manifest自体の取得
 		/// </summary>
-		public IEnumerator LoadWait(IManifestAccess version)
+		public IEnumerator LoadWait(IManifestAccess manifest)
 		{
 			if (m_bundle)
 			{
@@ -61,18 +63,20 @@ namespace Chipstar.Downloads
 			//	manifestのパス
 			//	s3 : xxxx // server-version / fileName
 
-			var location = version.Get();
-			var hash = version.Hash;
+			yield return m_versionLoader.LoadWait( );
+			var version = m_versionLoader.Get();
 
-			ChipstarLog.Log_RequestVersionManifest(location);
 			while (!m_cache.ready)
 			{
 				yield return null;
 			}
+			var location = manifest.Uri;
+			ChipstarLog.Log_RequestVersionManifest(location);
+
 			// 保存先指定
 			Caching.currentCacheForWriting = m_cache;
 			//	アセットバンドルとしてDL/キャッシュ
-			var www = UnityWebRequestAssetBundle.GetAssetBundle(location, hash);
+			var www = UnityWebRequestAssetBundle.GetAssetBundle(location, version.Hash);
 			www.SendWebRequest();
 			// DL待ち
 			while (!www.isDone)

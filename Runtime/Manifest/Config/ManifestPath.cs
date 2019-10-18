@@ -21,9 +21,7 @@ namespace Chipstar
 			return new ManifestAccess
 			{
 				Uri = new Uri(serverUri, manifestPath),
-				Extension = ManifestName.Extension,
 				Identifier = ManifestName.Identifier,
-				Hash = hash,
 			};
 		}
 	}
