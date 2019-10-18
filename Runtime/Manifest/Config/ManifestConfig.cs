@@ -29,7 +29,7 @@ namespace Chipstar
 		[SerializeField] private StoragePath m_saveStorage = default;
 		[Tooltip("システム")]
 		[SerializeField] private ManifestLoaderBuilder m_builder = default;
-		[SerializeField] private ManifestLoaderBuilder m_versionLoader = default;
+		[SerializeField] private ManifestVersionLoaderBuilder m_versionLoader = default;
 		//===========================
 		// プロパティ
 		//===========================
@@ -54,7 +54,7 @@ namespace Chipstar
 		}
 		public IManifestVersionLoader BuildVersionLoader(RuntimePlatform platform)
 		{
-			return default;
+			return m_versionLoader.Build( platform, this );
 		}
 	}
 }
