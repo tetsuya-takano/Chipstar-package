@@ -6,7 +6,10 @@ namespace Chipstar
 {
 	public abstract class ManifestVersionFileBuilder : FileBuilderCreater<ManifestVersion>
 	{
-
+		public override IFileBuilder<ManifestVersion> Build()
+		{
+			return new FileBuilder<ManifestVersion>(GetWriter(), GetParser(), ReadOption, WriteOption);
+		}
 	}
 
 	public abstract class ManifestVersionParser : FileParser<ManifestVersion>
